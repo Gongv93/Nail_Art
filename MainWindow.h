@@ -28,7 +28,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow();
-    ~MainWindow();
+   ~MainWindow();
 
 public slots:
 
@@ -44,18 +44,18 @@ private:
 
 
     // Private Member Variables
-    QPushButton *m_InputFileButton;
-    QPushButton *m_InputResetButton;
-    QPushButton  *m_rendReset1Btn;
-    QPushButton  *m_rendReset2Btn;
+    QPushButton    *m_InputFileButton;
+    QPushButton    *m_InputResetButton;
+    QPushButton    *m_rendReset1Btn;
+    QPushButton    *m_rendReset2Btn;
 
 
-    QSlider     *m_filterSlider[5];
-
+    QSlider         *m_filterSlider[5];
+    QRadioButton    *m_radioButton[4];
     QDoubleSpinBox  *m_filterSpinbox[5];
     QDoubleSpinBox  *m_dimSpinbox[2];
 
-    QRadioButton *m_radioButton[4];
+
 
 
 

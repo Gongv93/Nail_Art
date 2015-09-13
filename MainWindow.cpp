@@ -102,7 +102,7 @@ QGroupBox* MainWindow::createGroupFilter()
         {
            case 0: m_filterSpinbox[i] -> setRange(-128,128);break;
            case 1: m_filterSpinbox[i] -> setRange(-100,100);break;
-           case 2: m_filterSpinbox[i] -> setRange(-180,180);break;   //have to find out the range of values
+           case 2: m_filterSpinbox[i] -> setRange(-180,180);break;   //have to find out the range of values have ask prof
            case 3: m_filterSpinbox[i] -> setRange(-100,100);break;   //have to find out the range of values
            case 4: m_filterSpinbox[i] -> setRange(-100,100);break;  // have to find out the range of values
         }
@@ -183,3 +183,4 @@ QGroupBox* MainWindow:: createGroupRender()
     return renderBox;
 }
 
+// Vincent make the imagewindow to appear on right side
