@@ -12,6 +12,7 @@
 #include <QtWidgets>
 #include <QMainWindow>
 
+
 namespace UI
 {
     class MainwWindow;
@@ -33,22 +34,37 @@ public slots:
 
 private:
     // Private Functions
-    void createWidgets();
-
     void createLayout();
-    void createRightLayout(QGroupBox *layout);
-    void createInImgLayout(QGroupBox *layout);
-    void createImgFilLayout(QGroupBox *layout);
-    void createPhysDimLayout(QGroupBox *layout);
-    void createDisplayLayout(QGroupBox *layout);
-    void createRenderLayout(QGroupBox *layout);
 
-    void createSlider();
+    QGroupBox*  createGroupImage();
+    QGroupBox*  createGroupFilter();
+    QGroupBox*  createGroupDimensions();
+    QGroupBox*  createGroupDisplay();
+    QGroupBox*  createGroupRender();
 
-    // Private Variables
-    // Variables for our Input Image section
-    QPushButton *mInputFileButton;
-    QPushButton *mInputResetButton;
+
+    // Private Member Variables
+    QPushButton *m_InputFileButton;
+    QPushButton *m_InputResetButton;
+    QPushButton  *m_rendReset1Btn;
+    QPushButton  *m_rendReset2Btn;
+
+
+    QSlider     *m_filterSlider[5];
+
+    QDoubleSpinBox  *m_filterSpinbox[5];
+    QDoubleSpinBox  *m_dimSpinbox[2];
+
+    QRadioButton *m_radioButton[4];
+
+
+
+
+
+
+
+
+
 
 
 };
