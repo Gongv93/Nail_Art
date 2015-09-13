@@ -1,10 +1,14 @@
 /* ========================================================================
    File:    main.cpp
-   Class:   Senior Design Csc 59866
+   Class:   Senior Design II Csc 59867
    Creator: Asad Kamal, Vincent Gong, RuLong Haung
    ======================================================================== */
 
-#include "MainWindow.h"
+#include "Mainwindow.h"
+#include <QtWidgets>
+#include <QApplication>
+
+
 #include <QtWidgets>
 #include <QApplication>
 

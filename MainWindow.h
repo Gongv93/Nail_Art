@@ -1,8 +1,9 @@
 /* ========================================================================
-   File:    MainWindow.h
-   Class:   Senior Design Csc 59866
+   File:    main.cpp
+   Class:   Senior Design II Csc 59867
    Creator: Asad Kamal, Vincent Gong, RuLong Haung
    ======================================================================== */
+
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -13,41 +14,41 @@
 
 namespace UI
 {
-	class MainwWindow;
-	class QAction;
-	class QWidget;
-	class QVBoxLayout;
-	class QHBoxLayout;
+    class MainwWindow;
+    class QAction;
+    class QWidget;
+    class QVBoxLayout;
+    class QHBoxLayout;
 }
 
 class MainWindow : public QMainWindow
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	MainWindow();
-	~MainWindow();
+    MainWindow();
+    ~MainWindow();
 
 public slots:
 
 private:
-	// Private Functions
-	void createWidgets();
+    // Private Functions
+    void createWidgets();
 
-	void createLayout();
-	void createRightLayout(QGroupBox *layout);
-	void createInImgLayout(QGroupBox *layout);
-	void createImgFilLayout(QGroupBox *layout);
-	void createPhysDimLayout(QGroupBox *layout);
-	void createDisplayLayout(QGroupBox *layout);
-	void createRenderLayout(QGroupBox *layout);
+    void createLayout();
+    void createRightLayout(QGroupBox *layout);
+    void createInImgLayout(QGroupBox *layout);
+    void createImgFilLayout(QGroupBox *layout);
+    void createPhysDimLayout(QGroupBox *layout);
+    void createDisplayLayout(QGroupBox *layout);
+    void createRenderLayout(QGroupBox *layout);
 
-	void createSlider()
-	
-	// Private Variables	
-	// Variables for our Input Image section
-	QPushButton *mInputFileButton;
-	QPushButton *mInputResetButton;
+    void createSlider();
+
+    // Private Variables
+    // Variables for our Input Image section
+    QPushButton *mInputFileButton;
+    QPushButton *mInputResetButton;
 
 
 };
