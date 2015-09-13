@@ -21,6 +21,9 @@ MainWindow::~MainWindow() {}
 void MainWindow::createWidgets()
 {
 	// TODO(Vincent): Create the widgets
+
+	mInputFileButton = new QPushButton("File");
+	mInputResetButton = new QPushButton("Reset");
 }
 
 void MainWindow::createLayout()
@@ -30,12 +33,12 @@ void MainWindow::createLayout()
 	createRightLayout(rightCol);
 
 	// TODO(Vincent): After creating the right coloum, add it next to the image widget
-	//
-
 }
 
 void MainWindow::createRightLayout(QVBoxLayout *layout)
 {
+	// TODO(Vincent): Change the QVBoxLayout to groupboxes
+
 	// Create the layout for Input Image
 	QVBoxLayout *inputImageLayout = new QVBoxLayout;
 	createInImgLayout(inputImageLayout);
@@ -63,27 +66,27 @@ void MainWindow::createRightLayout(QVBoxLayout *layout)
 
 }
 
-void MainWindow::createInImgLayout(QVBoxLayout *layout)
+void MainWindow::createInImgLayout(QGroupBox *layout)
 {
 	// TODO(Vincent): Create the layout
 }
 
-void MainWindow::createImgFilLayout(QVBoxLayout *layout)
+void MainWindow::createImgFilLayout(QGroupBox *layout)
 {
 	// TODO(Vincent): Create the layout
 }
 
-void MainWindow::createPhysDimLayout(QVBoxLayout *layout)
+void MainWindow::createPhysDimLayout(QGroupBox *layout)
 {
 	// TODO(Vincent): Create the layout
 }
 
-void MainWindow::createDisplayLayout(QVBoxLayout *layout)
+void MainWindow::createDisplayLayout(QGroupBox *layout)
 {
 	// TODO(Vincent): Create the layout
 }
 
-void MainWindow::createRenderLayout(QVBoxLayout *layout)
+void MainWindow::createRenderLayout(QGroupBox *layout)
 {
 	// TODO(Vincent): Create the layout
 }

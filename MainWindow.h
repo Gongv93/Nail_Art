@@ -35,14 +35,20 @@ private:
 	void createWidgets();
 
 	void createLayout();
-	void createRightLayout(QVBoxLayout *layout);
-	void createInImgLayout(QVBoxLayout *layout);
-	void createImgFilLayout(QVBoxLayout *layout);
-	void createPhysDimLayout(QVBoxLayout *layout);
-	void createDisplayLayout(QVBoxLayout *layout);
-	void createRenderLayout(QVBoxLayout *layout);
+	void createRightLayout(QGroupBox *layout);
+	void createInImgLayout(QGroupBox *layout);
+	void createImgFilLayout(QGroupBox *layout);
+	void createPhysDimLayout(QGroupBox *layout);
+	void createDisplayLayout(QGroupBox *layout);
+	void createRenderLayout(QGroupBox *layout);
 
+	void createSlider()
+	
 	// Private Variables	
+	// Variables for our Input Image section
+	QPushButton *mInputFileButton;
+	QPushButton *mInputResetButton;
+
 
 };
 
