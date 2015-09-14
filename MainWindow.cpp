@@ -38,12 +38,21 @@ void MainWindow::createWidgets()
     m_rendReset1Btn = new QPushButton("Reset");
     m_rendReset2Btn = new QPushButton("Reset");
 
+    m_saveButton = new QPushButton("Save");
+    m_quitButton = new QPushButton("Quit");
+
     m_radioButton[0] = new QRadioButton ("Input");
     m_radioButton[1] = new QRadioButton ("Output");
     m_radioButton[2] = new QRadioButton ("Orthographic View");
     m_radioButton[3] = new QRadioButton ("Perspective View");
 
-    for(int i = 0; i < 5; ++i) {
+    m_widthSpinbox  = new QDoubleSpinBox;
+    m_heightSpinbox = new QDoubleSpinBox;
+
+    m_comboBox = new QComboBox;
+
+    for(int i = 0; i < 5; ++i)
+    {
         m_filterSlider[i]  = new QSlider(Qt::Horizontal);
         m_filterSpinbox[i] = new QDoubleSpinBox;
     }
@@ -86,6 +95,9 @@ void MainWindow::createRightLayout(QVBoxLayout *layout)
     QGroupBox *imgFilterBox = new QGroupBox("Image Filter");
     createGroupFilter(imgFilterBox);
 
+    QGroupBox *physDimBox = new QGroupBox("Physical Dimensions");
+    createGroupPhysDim(physDimBox);
+
     QGroupBox *displayBox = new QGroupBox("Display");
     createGroupDisplay(displayBox);
 
@@ -93,11 +105,12 @@ void MainWindow::createRightLayout(QVBoxLayout *layout)
     createGroupRender(renderBox);
 
     // Add them to our vertical layout
-    layout->addWidget(inImageBox);
-    layout->addWidget(imgFilterBox);
-    layout->addWidget(displayBox);
-    layout->addWidget(renderBox);
-    layout->addStretch();
+    layout -> addWidget(inImageBox);
+    layout -> addWidget(imgFilterBox);
+    layout -> addWidget(physDimBox);
+    layout -> addWidget(displayBox);
+    layout -> addWidget(renderBox);
+    layout -> addStretch();
 }
 
 void MainWindow::createGroupImage(QGroupBox *groupBox)
@@ -108,52 +121,84 @@ void MainWindow::createGroupImage(QGroupBox *groupBox)
     groupBox->setLayout(HBox);
 }
 
-void MainWindow::createSlider(QGridLayout* layout, int row, QString label, QSlider* slider, 
-                                QDoubleSpinBox* spinBox, float lowerRange,  float upperRange, float initialVal)
-{  
+void MainWindow::createSliderGrid(QGridLayout* layout, int row, QString label, QSlider* slider,
+                                  QDoubleSpinBox* spinBox, float lowerRange,  float upperRange, float initialVal)
+{
     QLabel *spinnerLabel = new QLabel(label);
-    
+
     slider->setValue(initialVal);
     slider->setRange(lowerRange, upperRange);
-    
+
     spinBox->setValue(initialVal);
     spinBox->setRange(lowerRange, upperRange);
 
     layout->addWidget(spinnerLabel, row, 0);
-    layout->addWidget(slider, row, 1);
-    layout->addWidget(spinBox, row, 2);
+    layout->addWidget(slider,       row, 1);
+    layout->addWidget(spinBox,      row, 2);
 }
 
 void MainWindow::createGroupFilter(QGroupBox* groupBox)
 {
     QGridLayout *filterLayout = new QGridLayout;
 
-    createSlider(filterLayout, 0, "Brightness",  m_filterSlider[0], m_filterSpinbox[0], -256, 256, 0);
-    createSlider(filterLayout, 1, "Contrast",    m_filterSlider[1], m_filterSpinbox[1], -100, 100, 0);
-    createSlider(filterLayout, 2, "Gamma",       m_filterSlider[2], m_filterSpinbox[2],  0.1f, 10,  5);
-    createSlider(filterLayout, 3, "Sharp Size",  m_filterSlider[3], m_filterSpinbox[3],  1, 100, 50);
-    createSlider(filterLayout, 4, "Sharp Fctr",  m_filterSlider[4], m_filterSpinbox[4],  1, 100, 50);
+    createSliderGrid (filterLayout, 0, "Brightness",  m_filterSlider[0], m_filterSpinbox[0], -256, 256,  0);
+    createSliderGrid (filterLayout, 1, "Contrast",    m_filterSlider[1], m_filterSpinbox[1], -100, 100,  0);
+    createSliderGrid (filterLayout, 2, "Gamma",       m_filterSlider[2], m_filterSpinbox[2],  0.1f, 10,  5);
+    createSliderGrid (filterLayout, 3, "Sharp Size",  m_filterSlider[3], m_filterSpinbox[3],  1,   100, 50);
+    createSliderGrid (filterLayout, 4, "Sharp Fctr",  m_filterSlider[4], m_filterSpinbox[4],  1,   100, 50);
 
     groupBox->setLayout(filterLayout);
 }
 
-void MainWindow::createPhysDimLayout()
+void MainWindow::createPhysDimGrid1(QGridLayout* Layout, int Row, QString Label, QDoubleSpinBox* SpinBox,
+                                                 QString unitLabel, float lowerRange,  float upperRange, float initialVal)
 {
-    //QGroupBox *dimensionsBox = new QGroupBox("Physical Dimensions");
+    QLabel *spinBoxLabel = new QLabel (Label);
+    QLabel *unitBoxLabel = new QLabel (unitLabel);
 
-    //Creating Sliders Labels
-    QLabel *dimLabel[6];
-    dimLabel[0] = new QLabel("Art Width");
-    dimLabel[1] = new QLabel("Art Height");
-    dimLabel[2] = new QLabel("Gauge");
-    dimLabel[3] = new QLabel("Spacing");
-    dimLabel[4] = new QLabel("Nails");
-    dimLabel[5] = new QLabel("Image");
+    SpinBox->setValue(initialVal);
+    SpinBox->setRange(lowerRange, upperRange);
+
+    Layout->addWidget(spinBoxLabel, Row, 0);
+    Layout->addWidget(SpinBox,      Row, 1);
+    Layout->addWidget(unitBoxLabel, Row, 2);
+}
 
 
-    // Need to finish this
+void MainWindow::createPhysDimGrid2(QGridLayout* Layout, int Row, QString Label, QComboBox* comboBox,
+                                                 QString unitLabel)
+{
+    QLabel *comboLabel = new QLabel (Label);
+    QLabel *unitBoxLabel = new QLabel (unitLabel);
 
-    //return dimensionsBox;
+    comboBox->addItem("18 (medium)");
+    comboBox->addItem("19 (high)");
+
+    Layout->addWidget(comboLabel,    Row, 0);
+    Layout->addWidget(comboBox,      Row, 1);
+    Layout->addWidget(unitBoxLabel,  Row, 2);
+}
+
+
+
+
+void MainWindow::createGroupPhysDim(QGroupBox* groupBox)
+{
+    //This section is almost complete
+    //Need to ask wolberg about spacing/Nails/Image
+    //Looks likes he used a text box next to it.
+
+    QGridLayout *phyDimLayout = new QGridLayout;
+
+    createPhysDimGrid1 (phyDimLayout, 0, "Art Width",   m_widthSpinbox, "In", -256, 256,  16.00);
+    createPhysDimGrid1 (phyDimLayout, 1, "Art Height", m_heightSpinbox, "In", -100, 100,  16.00);
+    createPhysDimGrid2 (phyDimLayout, 2, "Gauge",      m_comboBox,       "");
+
+ // createPhysDimGrid3(phyDimLayout, 3, "Spacing:",  m_filterSlider[3], m_filterSpinbox[3],  1,   100, 50);
+ // createPhysDimGrid3(phyDimLayout, 4, "Nails:",  m_filterSlider[4], m_filterSpinbox[4],  1,   100, 50);
+ // createPhysDimGrid3(phyDimLayout, 5, "Image:",  m_filterSlider[4], m_filterSpinbox[4],  1,   100, 50);
+
+    groupBox -> setLayout(phyDimLayout);
 }
 
 void MainWindow::createGroupDisplay(QGroupBox* groupBox)
@@ -169,12 +214,21 @@ void MainWindow::createGroupDisplay(QGroupBox* groupBox)
 
 void MainWindow::createGroupRender(QGroupBox* groupBox)
 {
-    //This section not complete.
-    // need to add some type of display then
-    // two more push buttons
-    QHBoxLayout *rendHBox = new QHBoxLayout;
-    rendHBox->addWidget(m_rendReset1Btn);
-    rendHBox->addWidget(m_rendReset2Btn);
+    //This section is almost complete
+    //Need to ask wolberg about the extra
+    //spacing in between the pushButtons.
 
-    groupBox->setLayout(rendHBox);
+    QHBoxLayout *ResetHBox = new QHBoxLayout;
+    ResetHBox->addWidget(m_rendReset1Btn);
+    ResetHBox->addWidget(m_rendReset2Btn);
+
+    QHBoxLayout *SVQHBox = new QHBoxLayout;
+    SVQHBox->addWidget(m_saveButton);
+    SVQHBox->addWidget(m_quitButton);
+
+    QVBoxLayout *rendVBox = new QVBoxLayout;
+    rendVBox -> addLayout(ResetHBox);
+    rendVBox -> addLayout(SVQHBox);
+
+    groupBox->setLayout(rendVBox);
 }
