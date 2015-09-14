@@ -175,14 +175,11 @@ void MainWindow::createGroupRender(QGroupBox* groupBox)
     //Need to ask wolberg about the extra
     //spacing in between the pushButtons.
 
-    QHBoxLayout *ResetHBox = new QHBoxLayout;
-    ResetHBox->addWidget(m_rendReset1Btn);
-    ResetHBox->addWidget(m_rendReset2Btn);
+    QHBoxLayout *rendHBox = new QHBoxLayout;
+    rendHBox->addWidget(m_rendReset1Btn);
+    rendHBox->addWidget(m_rendReset2Btn);
 
-    QVBoxLayout *rendVBox = new QVBoxLayout;
-    rendVBox->addLayout(ResetHBox);
-
-    groupBox->setLayout(rendVBox);
+    groupBox->setLayout(rendHBox);
 }
 
 void MainWindow::createGridLayout(QGridLayout* layout, int row, QString label, QSlider* slider,
