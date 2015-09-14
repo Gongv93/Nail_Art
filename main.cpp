@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     MainWindow window;
     // NOTE(Vincent): We need to find out the actual window size
-    window.resize(900,750);
+    window.resize(1200,700);
     window.show();
 
     return app.exec();

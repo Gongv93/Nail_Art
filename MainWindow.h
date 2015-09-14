@@ -45,7 +45,7 @@ private:
 
 
     void createSlider(QGridLayout* layout, int row, QString label, QSlider* slider, 
-                        QDoubleSpinBox* spinBox, int lowerRange, int upperRange, int initialVal);   // Creates our slider with a spinner and label
+                        QDoubleSpinBox* spinBox, float lowerRange, float upperRange, float initialVal);   // Creates our slider with a spinner and label
 
     // Private Variables
     // Variables for our Input Image section

@@ -6,6 +6,11 @@
 
 #include "MainWindow.h"
 
+QString GroupBoxStyle = "QGroupBox {                \
+                         border: 2px solid gray;    \
+                         border-radius: 9px;        \
+                         margin-top: 0.5em;}";
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
 // Class Constructor
@@ -50,10 +55,16 @@ void MainWindow::createLayout()
     QVBoxLayout *RightVLayout = new QVBoxLayout;
     createRightLayout(RightVLayout);
 
+    // Create a group box for the image
+    QGroupBox *groupBox = new QGroupBox();
+    groupBox->setStyleSheet(GroupBoxStyle);
+
     // Now create our overall GUI layout
     QHBoxLayout *HorzLayout = new QHBoxLayout;
+    HorzLayout->addWidget(groupBox);
+    HorzLayout->setStretch(0, 1);
     HorzLayout->addLayout(RightVLayout);
-    HorzLayout->setStretchFactor(RightVLayout, 1);
+    //HorzLayout->setStretchFactor(RightVLayout, 1);
 
     QWidget *window = new QWidget;
     window ->setLayout(HorzLayout);
@@ -97,7 +108,8 @@ void MainWindow::createGroupImage(QGroupBox *groupBox)
     groupBox->setLayout(HBox);
 }
 
-void MainWindow::createSlider(QGridLayout* layout, int row, QString label, QSlider* slider, QDoubleSpinBox* spinBox, int lowerRange, int upperRange, int initialVal)
+void MainWindow::createSlider(QGridLayout* layout, int row, QString label, QSlider* slider, 
+                                QDoubleSpinBox* spinBox, float lowerRange,  float upperRange, float initialVal)
 {  
     QLabel *spinnerLabel = new QLabel(label);
     
@@ -116,11 +128,11 @@ void MainWindow::createGroupFilter(QGroupBox* groupBox)
 {
     QGridLayout *filterLayout = new QGridLayout;
 
-    createSlider(filterLayout, 0, "Brightness",  m_filterSlider[0], m_filterSpinbox[0], -128, 128, 0);
+    createSlider(filterLayout, 0, "Brightness",  m_filterSlider[0], m_filterSpinbox[0], -256, 256, 0);
     createSlider(filterLayout, 1, "Contrast",    m_filterSlider[1], m_filterSpinbox[1], -100, 100, 0);
-    createSlider(filterLayout, 2, "Gamma",       m_filterSlider[2], m_filterSpinbox[2], -100, 100, 0);
-    createSlider(filterLayout, 3, "Sharp Size",  m_filterSlider[3], m_filterSpinbox[3], -100, 100, 0);
-    createSlider(filterLayout, 4, "Sharp Fctr",  m_filterSlider[4], m_filterSpinbox[4], -100, 100, 0);
+    createSlider(filterLayout, 2, "Gamma",       m_filterSlider[2], m_filterSpinbox[2],  0.1f, 10,  5);
+    createSlider(filterLayout, 3, "Sharp Size",  m_filterSlider[3], m_filterSpinbox[3],  1, 100, 50);
+    createSlider(filterLayout, 4, "Sharp Fctr",  m_filterSlider[4], m_filterSpinbox[4],  1, 100, 50);
 
     groupBox->setLayout(filterLayout);
 }
@@ -166,7 +178,3 @@ void MainWindow::createGroupRender(QGroupBox* groupBox)
 
     groupBox->setLayout(rendHBox);
 }
-
-
-
-// Vincent make the imagewindow to appear on right side
