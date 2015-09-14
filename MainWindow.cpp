@@ -15,6 +15,7 @@ MainWindow::MainWindow()
 {
     createWidgets();	// Create the widgets we will use
     createLayout();		// Create the window layout
+    createConnections();
 }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,25 +27,33 @@ MainWindow::~MainWindow() {}
 
 void MainWindow::createWidgets()
 {
-    // TODO(Vincent): Create the widgets
-    mInputFileButton = new QPushButton("File");
-    mInputResetButton = new QPushButton("Reset");
+    m_InputFileButton = new QPushButton("File");
+    m_InputResetButton = new QPushButton("Reset");
+
+    m_rendReset1Btn = new QPushButton("Reset");
+    m_rendReset2Btn = new QPushButton("Reset");
+
+    m_radioButton[0] = new QRadioButton ("Input");
+    m_radioButton[1] = new QRadioButton ("Output");
+    m_radioButton[2] = new QRadioButton ("Orthographic View");
+    m_radioButton[3] = new QRadioButton ("Perspective View");
+
+    for(int i = 0; i < 5; ++i) {
+        m_filterSlider[i]  = new QSlider(Qt::Horizontal);
+        m_filterSpinbox[i] = new QDoubleSpinBox;
+    }
 }
 
 void MainWindow::createLayout()
 {
-
+    // Create our right coloumn
     QVBoxLayout *RightVLayout = new QVBoxLayout;
-    RightVLayout -> addWidget(createGroupImage());
-    RightVLayout -> addWidget(createGroupFilter());
-    //RightVLayout -> addWidget(createGroupDimensions());
-    RightVLayout -> addWidget(createGroupDisplay());
-    RightVLayout -> addWidget(createGroupRender());
-    RightVLayout  ->addStretch();
+    createRightLayout(RightVLayout);
 
+    // Now create our overall GUI layout
     QHBoxLayout *HorzLayout = new QHBoxLayout;
-    HorzLayout -> addLayout(RightVLayout);
-    HorzLayout -> setStretchFactor(RightVLayout, 1);
+    HorzLayout->addLayout(RightVLayout);
+    HorzLayout->setStretchFactor(RightVLayout, 1);
 
     QWidget *window = new QWidget;
     window ->setLayout(HorzLayout);
@@ -52,91 +61,69 @@ void MainWindow::createLayout()
 
 }
 
-QGroupBox* MainWindow::createGroupImage()
+void MainWindow::createConnections()
 {
-    QGroupBox *InImageBox =new QGroupBox("Input Image");
+    // TODO(Vincent): Create connections with our widgets
+}
 
-    m_InputFileButton = new QPushButton("File");
-    m_InputResetButton = new QPushButton("Reset");
+void MainWindow::createRightLayout(QVBoxLayout *layout)
+{
+    // Create each group box
+    QGroupBox *inImageBox = new QGroupBox("Input Image");
+    createGroupImage(inImageBox);
 
+    QGroupBox *imgFilterBox = new QGroupBox("Image Filter");
+    createGroupFilter(imgFilterBox);
+
+    QGroupBox *displayBox = new QGroupBox("Display");
+    createGroupDisplay(displayBox);
+
+    QGroupBox *renderBox =new QGroupBox("Render");
+    createGroupRender(renderBox);
+
+    // Add them to our vertical layout
+    layout->addWidget(inImageBox);
+    layout->addWidget(imgFilterBox);
+    layout->addWidget(displayBox);
+    layout->addWidget(renderBox);
+    layout->addStretch();
+}
+
+void MainWindow::createGroupImage(QGroupBox *groupBox)
+{
     QHBoxLayout *HBox = new QHBoxLayout;
-    HBox ->addWidget(m_InputFileButton);
-    HBox ->addWidget(m_InputResetButton);
-
-    InImageBox ->setLayout(HBox);
-
-    return InImageBox ;
+    HBox->addWidget(m_InputFileButton);
+    HBox->addWidget(m_InputResetButton);
+    groupBox->setLayout(HBox);
 }
 
-QGroupBox* MainWindow::createGroupFilter()
+void MainWindow::createSlider(QGridLayout* layout, int row, QString label, QSlider* slider, QDoubleSpinBox* spinBox, int lowerRange, int upperRange, int initialVal)
+{  
+    QLabel *spinnerLabel = new QLabel(label);
+    
+    slider->setValue(initialVal);
+    slider->setRange(lowerRange, upperRange);
+    
+    spinBox->setValue(initialVal);
+    spinBox->setRange(lowerRange, upperRange);
+
+    layout->addWidget(spinnerLabel, row, 0);
+    layout->addWidget(slider, row, 1);
+    layout->addWidget(spinBox, row, 2);
+}
+
+void MainWindow::createGroupFilter(QGroupBox* groupBox)
 {
-    QGroupBox *InpFilterBox = new QGroupBox("Image Filter");
+    QGridLayout *filterLayout = new QGridLayout;
 
-    //Creating Sliders Labels
-    QLabel *slidersLabel[5];
-    slidersLabel[0] = new QLabel("Brightness");
-    slidersLabel[1] = new QLabel("Contrast");
-    slidersLabel[2] = new QLabel("Gamma");
-    slidersLabel[3] = new QLabel("Sharp Size");
-    slidersLabel[4] = new QLabel("Sharp Fctr");
+    createSlider(filterLayout, 0, "Brightness",  m_filterSlider[0], m_filterSpinbox[0], -128, 128, 0);
+    createSlider(filterLayout, 1, "Contrast",    m_filterSlider[1], m_filterSpinbox[1], -100, 100, 0);
+    createSlider(filterLayout, 2, "Gamma",       m_filterSlider[2], m_filterSpinbox[2], -100, 100, 0);
+    createSlider(filterLayout, 3, "Sharp Size",  m_filterSlider[3], m_filterSpinbox[3], -100, 100, 0);
+    createSlider(filterLayout, 4, "Sharp Fctr",  m_filterSlider[4], m_filterSpinbox[4], -100, 100, 0);
 
-    //Creating Sliders
-    for(int i=0; i<5; i++)
-    {
-        m_filterSlider[i] = new QSlider(Qt::Horizontal);
-        m_filterSlider[i] -> setValue(0);
-
-        //Setting Range of Slider values
-        switch(i)
-        {
-           case 0: m_filterSlider[i] -> setRange(-128,128);break;
-           case 1: m_filterSlider[i] -> setRange(-100,100);break;
-           case 2: m_filterSlider[i] -> setRange(-180,180);break;   //have to find out the range of values
-           case 3: m_filterSlider[i] -> setRange(-100,100);break;   //have to find out the range of values
-           case 4: m_filterSlider[i] -> setRange(-100,100);break;  // have to find out the range of values
-        }
-    }
-
-
-    //Creating SpinBoxes
-    for(int i=0; i<5; i++)
-    {
-        m_filterSpinbox[i] = new QDoubleSpinBox;
-        m_filterSpinbox[i] -> setValue(0);
-
-        //Setting Range of Spinbox values
-        switch(i)
-        {
-           case 0: m_filterSpinbox[i] -> setRange(-128,128);break;
-           case 1: m_filterSpinbox[i] -> setRange(-100,100);break;
-           case 2: m_filterSpinbox[i] -> setRange(-180,180);break;   //have to find out the range of values have ask prof
-           case 3: m_filterSpinbox[i] -> setRange(-100,100);break;   //have to find out the range of values
-           case 4: m_filterSpinbox[i] -> setRange(-100,100);break;  // have to find out the range of values
-        }
-    }
-
-    //Assemble Widgets in a Grid:
-    QGridLayout *filterGrid = new QGridLayout;
-    for(int i=0; i<5; i++)
-    {
-        filterGrid -> addWidget(slidersLabel[i], i, 0);
-        filterGrid -> addWidget(m_filterSlider[i], i, 1);
-        filterGrid -> addWidget(m_filterSpinbox[i], i, 2);
-    }
-
-    InpFilterBox->setLayout(filterGrid);
-
-    return InpFilterBox;
-
+    groupBox->setLayout(filterLayout);
 }
-
-/*
-// Need to finish this
-QGroupBox* MainWindow::createGroupDimensions()
-{
-
-}
-*/
 
 void MainWindow::createPhysDimLayout()
 {
@@ -157,44 +144,29 @@ void MainWindow::createPhysDimLayout()
     //return dimensionsBox;
 }
 
-QGroupBox* MainWindow::createGroupDisplay()
+void MainWindow::createGroupDisplay(QGroupBox* groupBox)
 {
-    QGroupBox *displayBox = new QGroupBox("Display");
-
-    m_radioButton[0] = new QRadioButton ("Input");
-    m_radioButton[1] = new QRadioButton ("Output");
-    m_radioButton[2] = new QRadioButton ("Orthographic View");
-    m_radioButton[3] = new QRadioButton ("Perspective View");
-
     QVBoxLayout *HorzBut = new QVBoxLayout;
     HorzBut -> addWidget(m_radioButton[0]);
     HorzBut -> addWidget(m_radioButton[1]);
     HorzBut -> addWidget(m_radioButton[2]);
     HorzBut -> addWidget(m_radioButton[3]);
 
-    displayBox->setLayout(HorzBut);
-
-    return displayBox;
+    groupBox->setLayout(HorzBut);
 }
 
-QGroupBox* MainWindow::createGroupRender()
+void MainWindow::createGroupRender(QGroupBox* groupBox)
 {
     //This section not complete.
     // need to add some type of display then
     // two more push buttons
-
-    QGroupBox *renderBox =new QGroupBox("Render");
-
-    m_rendReset1Btn = new QPushButton("Reset");
-    m_rendReset2Btn = new QPushButton("Reset");
-
     QHBoxLayout *rendHBox = new QHBoxLayout;
-    rendHBox ->addWidget(m_rendReset1Btn);
-    rendHBox ->addWidget(m_rendReset2Btn);
+    rendHBox->addWidget(m_rendReset1Btn);
+    rendHBox->addWidget(m_rendReset2Btn);
 
-    renderBox ->setLayout(rendHBox);
-
-    return renderBox;
+    groupBox->setLayout(rendHBox);
 }
+
+
 
 // Vincent make the imagewindow to appear on right side

@@ -4,14 +4,12 @@
    Creator: Asad Kamal, Vincent Gong, RuLong Haung
    ======================================================================== */
 
-
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QtGui>
 #include <QtWidgets>
 #include <QMainWindow>
-
 
 namespace UI
 {
@@ -34,29 +32,23 @@ public slots:
 
 private:
     // Private Functions
-    void createWidgets();
-    void createLayout();
-
-    void createRightLayout(QGroupBox *layout);
-    void createInImgLayout(QGroupBox *layout);
-    void createImgFilLayout(QGroupBox *layout);
+    void createWidgets();                           // Creates our widgets
+    void createLayout();                            // Creates the GUI layout
+    void createConnections();                       // Create connections for our widgets
     void createPhysDimLayout();
-    void createDisplayLayout(QGroupBox *layout);
-    void createRenderLayout(QGroupBox *layout);
 
-    void createSlider();
+    void createRightLayout(QVBoxLayout *layout);    // Creates our right coloumn   
+    void createGroupImage(QGroupBox* groupBox);     // Creates group box for image input
+    void createGroupFilter(QGroupBox* groupBox);    // Creates group box for image filter
+    void createGroupDisplay(QGroupBox* groupBox);   // Creates group box for display
+    void createGroupRender(QGroupBox* groupBox);    // Creates group box for renderer 
+
+
+    void createSlider(QGridLayout* layout, int row, QString label, QSlider* slider, 
+                        QDoubleSpinBox* spinBox, int lowerRange, int upperRange, int initialVal);   // Creates our slider with a spinner and label
 
     // Private Variables
     // Variables for our Input Image section
-    QPushButton *mInputFileButton;
-    QPushButton *mInputResetButton;
-
-    QGroupBox*  createGroupImage();
-    QGroupBox*  createGroupFilter();
-    //QGroupBox*  createGroupDimensions();
-    QGroupBox*  createGroupDisplay();
-    QGroupBox*  createGroupRender();
-
 
     // Private Member Variables
     QPushButton    *m_InputFileButton;
@@ -64,13 +56,10 @@ private:
     QPushButton    *m_rendReset1Btn;
     QPushButton    *m_rendReset2Btn;
 
-
     QSlider         *m_filterSlider[5];
     QRadioButton    *m_radioButton[4];
     QDoubleSpinBox  *m_filterSpinbox[5];
     QDoubleSpinBox  *m_dimSpinbox[2];
-
-
 };
 
 #endif
