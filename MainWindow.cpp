@@ -13,10 +13,7 @@
 
 MainWindow::MainWindow()
 {
-<<<<<<< HEAD
     createWidgets();	// Create the widgets we will use
-=======
->>>>>>> master
     createLayout();		// Create the window layout
 }
 
@@ -27,52 +24,12 @@ MainWindow::MainWindow()
 
 MainWindow::~MainWindow() {}
 
-<<<<<<< HEAD
 void MainWindow::createWidgets()
 {
     // TODO(Vincent): Create the widgets
-
     mInputFileButton = new QPushButton("File");
     mInputResetButton = new QPushButton("Reset");
 }
-
-void MainWindow::createLayout()
-{
-    // Create our right coloumn
-    QVBoxLayout *rightCol = new QVBoxLayout;
-    createRightLayout(rightCol);
-
-    // TODO(Vincent): After creating the right coloum, add it next to the image widget
-}
-
-void MainWindow::createRightLayout(QVBoxLayout *layout)
-{
-    // TODO(Vincent): Change the QVBoxLayout to groupboxes
-
-    // Create the layout for Input Image
-    QVBoxLayout *inputImageLayout = new QVBoxLayout;
-    createInImgLayout(inputImageLayout);
-
-    // Create the layout for Image Filter
-    QVBoxLayout *imageFilterLayout = new QVBoxLayout;
-    createImgFilLayout(imageFilterLayout);
-
-    // Create the layout for Physical Dimensions
-    QVBoxLayout *physicalDimensionsLayout = new QVBoxLayout;
-    createPhysDimLayout(physicalDimensionsLayout);
-
-    // Create the layout for Display
-    QVBoxLayout *displayLayout = new QVBoxLayout;
-    createDisplayLayout(displayLayout);
-
-    // Create the layout for Render
-    QVBoxLayout *renderLayout = new QVBoxLayout;
-    createRenderLayout(renderLayout);
-
-    // TODO(Vincent): Create the layout for the save and quit buttons on the bottom
-
-    // TODO(Vincent): Put all layouts together to form the right coloumn
-=======
 
 void MainWindow::createLayout()
 {
@@ -80,7 +37,7 @@ void MainWindow::createLayout()
     QVBoxLayout *RightVLayout = new QVBoxLayout;
     RightVLayout -> addWidget(createGroupImage());
     RightVLayout -> addWidget(createGroupFilter());
-    RightVLayout -> addWidget(createGroupDimensions());
+    //RightVLayout -> addWidget(createGroupDimensions());
     RightVLayout -> addWidget(createGroupDisplay());
     RightVLayout -> addWidget(createGroupRender());
     RightVLayout  ->addStretch();
@@ -105,7 +62,6 @@ QGroupBox* MainWindow::createGroupImage()
     QHBoxLayout *HBox = new QHBoxLayout;
     HBox ->addWidget(m_InputFileButton);
     HBox ->addWidget(m_InputResetButton);
->>>>>>> master
 
     InImageBox ->setLayout(HBox);
 
@@ -114,9 +70,6 @@ QGroupBox* MainWindow::createGroupImage()
 
 QGroupBox* MainWindow::createGroupFilter()
 {
-<<<<<<< HEAD
-    // TODO(Vincent): Create the layout
-=======
     QGroupBox *InpFilterBox = new QGroupBox("Image Filter");
 
     //Creating Sliders Labels
@@ -174,21 +127,20 @@ QGroupBox* MainWindow::createGroupFilter()
     InpFilterBox->setLayout(filterGrid);
 
     return InpFilterBox;
->>>>>>> master
+
 }
 
+/*
 // Need to finish this
-QGroupBox* MainWindow:: createGroupDimensions()
+QGroupBox* MainWindow::createGroupDimensions()
 {
-<<<<<<< HEAD
-    // TODO(Vincent): Create the layout
-}
 
-void MainWindow::createPhysDimLayout(QGroupBox *layout)
+}
+*/
+
+void MainWindow::createPhysDimLayout()
 {
-    // TODO(Vincent): Create the layout
-=======
-    QGroupBox *dimensionsBox = new QGroupBox("Physical Dimensions");
+    //QGroupBox *dimensionsBox = new QGroupBox("Physical Dimensions");
 
     //Creating Sliders Labels
     QLabel *dimLabel[6];
@@ -202,15 +154,11 @@ void MainWindow::createPhysDimLayout(QGroupBox *layout)
 
     // Need to finish this
 
-    return dimensionsBox;
->>>>>>> master
+    //return dimensionsBox;
 }
 
 QGroupBox* MainWindow::createGroupDisplay()
 {
-<<<<<<< HEAD
-    // TODO(Vincent): Create the layout
-=======
     QGroupBox *displayBox = new QGroupBox("Display");
 
     m_radioButton[0] = new QRadioButton ("Input");
@@ -227,15 +175,10 @@ QGroupBox* MainWindow::createGroupDisplay()
     displayBox->setLayout(HorzBut);
 
     return displayBox;
->>>>>>> master
 }
 
-QGroupBox* MainWindow:: createGroupRender()
+QGroupBox* MainWindow::createGroupRender()
 {
-<<<<<<< HEAD
-    // TODO(Vincent): Create the layout
-=======
-
     //This section not complete.
     // need to add some type of display then
     // two more push buttons
@@ -252,7 +195,6 @@ QGroupBox* MainWindow:: createGroupRender()
     renderBox ->setLayout(rendHBox);
 
     return renderBox;
->>>>>>> master
 }
 
 // Vincent make the imagewindow to appear on right side

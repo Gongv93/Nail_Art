@@ -28,24 +28,19 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow();
-<<<<<<< HEAD
-    ~MainWindow();
-=======
    ~MainWindow();
->>>>>>> master
 
 public slots:
 
 private:
     // Private Functions
-<<<<<<< HEAD
     void createWidgets();
-
     void createLayout();
+
     void createRightLayout(QGroupBox *layout);
     void createInImgLayout(QGroupBox *layout);
     void createImgFilLayout(QGroupBox *layout);
-    void createPhysDimLayout(QGroupBox *layout);
+    void createPhysDimLayout();
     void createDisplayLayout(QGroupBox *layout);
     void createRenderLayout(QGroupBox *layout);
 
@@ -55,12 +50,10 @@ private:
     // Variables for our Input Image section
     QPushButton *mInputFileButton;
     QPushButton *mInputResetButton;
-=======
-    void createLayout();
 
     QGroupBox*  createGroupImage();
     QGroupBox*  createGroupFilter();
-    QGroupBox*  createGroupDimensions();
+    //QGroupBox*  createGroupDimensions();
     QGroupBox*  createGroupDisplay();
     QGroupBox*  createGroupRender();
 
@@ -76,18 +69,6 @@ private:
     QRadioButton    *m_radioButton[4];
     QDoubleSpinBox  *m_filterSpinbox[5];
     QDoubleSpinBox  *m_dimSpinbox[2];
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> master
 
 
 };
