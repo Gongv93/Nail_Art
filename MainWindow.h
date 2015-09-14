@@ -45,15 +45,13 @@ private:
     void createGroupRender(QGroupBox* groupBox);    // Creates group box for renderer
 
 
-    void createSliderGrid (QGridLayout* layout, int row, QString label, QSlider* slider,
-                          QDoubleSpinBox* spinBox, float lowerRange, float upperRange, float initialVal);   // Creates our slider with a spinner and label
+    void createGridLayout(QGridLayout* layout, int row, QString label, QSlider* slider,
+                            QDoubleSpinBox* spinBox, float lowerRange, float upperRange, float initialVal);   // Creates our slider with a spinner and label
 
+    void createGridLayout(QGridLayout* Layout, int Row, QString Label, QDoubleSpinBox* SpinBox,
+                            QString unitLabel, float lowerRange,  float upperRange, float initialVal);
 
-    void createPhysDimGrid1 (QGridLayout* Layout, int Row, QString Label, QDoubleSpinBox* SpinBox,
-                           QString unitLabel, float lowerRange,  float upperRange, float initialVal);
-
-
-    void createPhysDimGrid2(QGridLayout* Layout, int Row, QString Label, QComboBox* comboBox,
+    void createGridLayout(QGridLayout* Layout, int Row, QString Label, QComboBox* comboBox,
                             QString unitLabel);
 
     // Private Variables
@@ -75,9 +73,6 @@ private:
     QDoubleSpinBox  *m_heightSpinbox;
 
     QComboBox* m_comboBox;
-
-
-
 };
 
 #endif
