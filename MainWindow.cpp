@@ -82,7 +82,15 @@ void MainWindow::createLayout()
 
 void MainWindow::createConnections()
 {
-    // TODO(Vincent): Create connections with our widgets
+    // TODO: Create connections with our widgets
+
+    // init signal/slot connections
+    connect(m_InputFileButton, SIGNAL(clicked()), this, SLOT(load ()));
+
+    connect(m_quitButton, SIGNAL(triggered()), this, SLOT(quit()));
+
+
+
 }
 
 void MainWindow::createRightLayout(QVBoxLayout *layout)
@@ -151,9 +159,9 @@ void MainWindow::createGroupPhysDim(QGroupBox* groupBox)
     createGridLayout(phyDimLayout, 1, "Art Height", m_heightSpinbox, "In", -100, 100,  16.00);
     createGridLayout(phyDimLayout, 2, "Gauge",      m_comboBox,       "");
 
- // createGridLayout(phyDimLayout, 3, "Spacing:",  m_filterSlider[3], m_filterSpinbox[3],  1,   100, 50);
- // createGridLayout(phyDimLayout, 4, "Nails:",  m_filterSlider[4], m_filterSpinbox[4],  1,   100, 50);
- // createGridLayout(phyDimLayout, 5, "Image:",  m_filterSlider[4], m_filterSpinbox[4],  1,   100, 50);
+    createGridLayout(phyDimLayout, 3, "Spacing:",  "0.15748");
+    createGridLayout(phyDimLayout, 4, "Nails:",           "");
+    createGridLayout(phyDimLayout, 5, "Image:",           "");
 
     groupBox -> setLayout(phyDimLayout);
 }
@@ -171,9 +179,6 @@ void MainWindow::createGroupDisplay(QGroupBox* groupBox)
 
 void MainWindow::createGroupRender(QGroupBox* groupBox)
 {
-    //This section is almost complete
-    //Need to ask wolberg about the extra
-    //spacing in between the pushButtons.
 
     QHBoxLayout *rendHBox = new QHBoxLayout;
     rendHBox->addWidget(m_rendReset1Btn);
@@ -218,10 +223,161 @@ void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Label, Q
     QLabel *comboLabel = new QLabel (Label);
     QLabel *unitBoxLabel = new QLabel (unitLabel);
 
-    comboBox->addItem("18 (medium)");
-    comboBox->addItem("19 (high)");
+    comboBox->addItem("16 (Thick)");
+    comboBox->addItem("18 (Medium)");
+    comboBox->addItem("23 (Thin)");
 
     Layout->addWidget(comboLabel,    Row, 0);
     Layout->addWidget(comboBox,      Row, 1);
     Layout->addWidget(unitBoxLabel,  Row, 2);
 }
+
+
+void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Labels, QString Label2)
+
+{
+    QLabel *labels = new QLabel (Labels);
+    QLabel *dimenLabel = new QLabel (Label2);
+
+
+    Layout->addWidget(labels,     Row, 0);
+    Layout->addWidget(dimenLabel, Row, 1);
+}
+
+
+
+
+
+/*
+
+
+int MainWindow:: load()
+{
+    QFileDialog dialog(this);
+
+    // open the last known working directory
+    if(!m_currentDir.isEmpty())
+        dialog.setDirectory(m_currentDir);
+
+    // display existing files and directories
+    dialog.setFileMode(QFileDialog::ExistingFile);
+
+    // invoke native file browser to select file
+    m_file =  dialog.getOpenFileName(this,
+        "Open File", m_currentDir,
+        "Images (*.jpg *.png *.ppm *.pgm *.bmp);;All files (*)");
+
+    // verify that file selection was made
+    if(m_file.isNull()) return 0;
+
+    // save current directory
+    QFileInfo f(m_file);
+    m_currentDir = f.absolutePath();
+
+   // read input image and convert to grayscale
+ //   m_imageSrc = IP::IP_readImage(qPrintable(m_file));
+ //   IP_castImage(m_imageSrc, BW_IMAGE, m_imageSrc);
+
+    // update button with filename (without path)
+    m_InputFileButton -> setText(f.fileName());
+    m_InputFileButton -> update();
+
+    // call preview() to display something
+   // preview();
+
+    return 1;
+}
+
+
+
+// Compute preview image.
+void MainWindow::preview()
+{
+    applyFilter(m_imageSrc, m_imageDst);
+
+    // display requested image
+
+    int i;
+    for(i=0; i<2; i++)
+        if(m_radioButton[i]->isChecked()) break;
+    switch(i)
+    {
+    case 0:	displayIn   (); break;
+    case 1:	displayOut  (); break;
+    }
+}
+
+
+
+// Run filter on the image, transforming I1 to I2.
+// Overrides ImageFilterDialog::applyFilter().
+// Return 1 for success, 0 for failure.
+bool MainWindow::applyFilter(ImagePtr I1, ImagePtr I2)
+{
+    // error checking
+    if(I1.isNull()) {
+        IP_printfErr("applyFilter: Missing image");
+        return 0;	// failure
+    }
+
+    // collect parameters
+    double threshold = m_filterSlider[0]-> value();
+
+    // apply filter
+    IP_threshold(I1, threshold, threshold, 0, 0, 255, I2);
+    IP_copyImage(I2, m_imageDst);
+
+    return 1;	// success
+}
+
+
+// Slot functions to display input and output images.
+
+void MainWindow::displayIn   () { display(0); }
+void MainWindow::displayOut  () { display(1); }
+
+void MainWindow::display(int flag)
+{
+    // error checking
+    if(m_imageSrc.isNull()) return;		// no input image
+    if(m_imageDst.isNull())			// compute output image
+        applyFilter(m_imageSrc, m_imageDst);
+
+    // raise the appropriate widget from the stack
+    m_stackWidget->setCurrentIndex(flag);
+
+    // determine image to be displayed
+    ImagePtr I;
+    if(flag == 0)
+        I = m_imageSrc;
+    else	I = m_imageDst;
+
+    // init dimensions of target
+    //int w = m_imageDst->width ();
+    //int h = m_imageDst->height();
+    int w = m_stackWidget->width();
+    int h = m_stackWidget->height();
+
+    // convert from ImagePtr to QImage to Pixmap
+    QImage q;
+    IP_IPtoQImage(I, q);
+    QPixmap p = QPixmap::fromImage(q.scaled(QSize(w,h), Qt::KeepAspectRatio));
+
+    // assign pixmap to label widget for display
+    QLabel *widget = (QLabel *) m_stackWidget->currentWidget();
+    widget->setPixmap(p);
+}
+
+
+
+
+
+
+
+*/
+void MainWindow::quit()
+{
+    // close window
+    close();
+}
+

@@ -10,6 +10,9 @@
 #include <QtGui>
 #include <QtWidgets>
 #include <QMainWindow>
+//#include "IP.h"
+//#include "IPtoUI.h"
+
 
 namespace UI
 {
@@ -32,6 +35,16 @@ public slots:
 
 private:
     // Private Functions
+    int  load();
+    void quit();
+    void preview();
+    void display(int);
+
+    void displayIn	();
+    void displayOut	();
+    //bool applyFilter(ImagePtr, ImagePtr);
+
+
     void createWidgets();                           // Creates our widgets
     void createLayout();                            // Creates the GUI layout
     void createConnections();                       // Create connections for our widgets
@@ -54,10 +67,19 @@ private:
     void createGridLayout(QGridLayout* Layout, int Row, QString Label, QComboBox* comboBox,
                             QString unitLabel);
 
-    // Private Variables
-    // Variables for our Input Image section
+    void createGridLayout(QGridLayout* Layout, int Row, QString Labels, QString Label2);
+
 
     // Private Member Variables
+
+    // variables
+    QString		   m_file;
+    QString		   m_currentDir;
+
+    // image pointers
+    //ImagePtr	   m_imageSrc;
+    //ImagePtr	   m_imageDst;
+
     QPushButton    *m_InputFileButton;
     QPushButton    *m_InputResetButton;
     QPushButton    *m_rendReset1Btn;
