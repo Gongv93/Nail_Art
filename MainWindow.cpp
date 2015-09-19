@@ -11,6 +11,8 @@ QString GroupBoxStyle = "QGroupBox {                \
                          border-radius: 9px;        \
                          margin-top: 0.5em;}";
 
+int DefualtDisplay = 1;
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
 // Class Constructor
@@ -49,6 +51,8 @@ void MainWindow::createWidgets()
     m_widthSpinbox  = new QDoubleSpinBox;
     m_heightSpinbox = new QDoubleSpinBox;
 
+    m_stackWidget = new QStackedWidget;	
+
     m_comboBox = new QComboBox;
 
     for(int i = 0; i < 5; ++i)
@@ -65,12 +69,12 @@ void MainWindow::createLayout()
     createRightLayout(RightVLayout);
 
     // Create a group box for the image
-    QGroupBox *groupBox = new QGroupBox();
-    groupBox->setStyleSheet(GroupBoxStyle);
+    QGroupBox *viewLayout = new QGroupBox();
+    createGroupView(viewLayout);
 
     // Now create our overall GUI layout
     QHBoxLayout *HorzLayout = new QHBoxLayout;
-    HorzLayout->addWidget(groupBox);
+    HorzLayout->addWidget(viewLayout);
     HorzLayout->setStretch(0, 1);
     HorzLayout->addLayout(RightVLayout);
     //HorzLayout->setStretchFactor(RightVLayout, 1);
@@ -85,12 +89,9 @@ void MainWindow::createConnections()
     // TODO: Create connections with our widgets
 
     // init signal/slot connections
-    connect(m_InputFileButton, SIGNAL(clicked()), this, SLOT(load ()));
+    connect(m_InputFileButton, SIGNAL(clicked()), this, SLOT(load()));
 
-    connect(m_quitButton, SIGNAL(triggered()), this, SLOT(quit()));
-
-
-
+    connect(m_quitButton, SIGNAL(clicked()), this, SLOT(quit()));
 }
 
 void MainWindow::createRightLayout(QVBoxLayout *layout)
@@ -124,6 +125,20 @@ void MainWindow::createRightLayout(QVBoxLayout *layout)
     layout->addWidget(renderBox);
     layout->addStretch();
     layout->addLayout(quitButtons);
+}
+
+void MainWindow::createGroupView(QGroupBox *groupBox)
+{
+	groupBox->setStyleSheet(GroupBoxStyle);
+
+	for(int i = 0; i < 2; ++i)
+		m_stackWidget->addWidget(new QLabel);
+
+	QLabel *label;
+	label = (QLabel *) m_stackWidget->widget(0); label->setAlignment(Qt::AlignCenter);
+	label = (QLabel *) m_stackWidget->widget(1); label->setAlignment(Qt::AlignCenter);
+
+	m_stackWidget->setCurrentIndex(DefualtDisplay);
 }
 
 void MainWindow::createGroupImage(QGroupBox *groupBox)
@@ -163,7 +178,7 @@ void MainWindow::createGroupPhysDim(QGroupBox* groupBox)
     createGridLayout(phyDimLayout, 4, "Nails:",           "");
     createGridLayout(phyDimLayout, 5, "Image:",           "");
 
-    groupBox -> setLayout(phyDimLayout);
+    groupBox->setLayout(phyDimLayout);
 }
 
 void MainWindow::createGroupDisplay(QGroupBox* groupBox)
@@ -174,210 +189,16 @@ void MainWindow::createGroupDisplay(QGroupBox* groupBox)
     HorzBut->addWidget(m_radioButton[2]);
     HorzBut->addWidget(m_radioButton[3]);
 
+    m_radioButton[DefualtDisplay]->setChecked(true);
+
     groupBox->setLayout(HorzBut);
 }
 
 void MainWindow::createGroupRender(QGroupBox* groupBox)
 {
-
     QHBoxLayout *rendHBox = new QHBoxLayout;
     rendHBox->addWidget(m_rendReset1Btn);
     rendHBox->addWidget(m_rendReset2Btn);
 
     groupBox->setLayout(rendHBox);
 }
-
-void MainWindow::createGridLayout(QGridLayout* layout, int row, QString label, QSlider* slider,
-                                  QDoubleSpinBox* spinBox, float lowerRange,  float upperRange, float initialVal)
-{
-    QLabel *spinnerLabel = new QLabel(label);
-
-    slider->setValue(initialVal);
-    slider->setRange(lowerRange, upperRange);
-
-    spinBox->setValue(initialVal);
-    spinBox->setRange(lowerRange, upperRange);
-
-    layout->addWidget(spinnerLabel, row, 0);
-    layout->addWidget(slider,       row, 1);
-    layout->addWidget(spinBox,      row, 2);
-}
-
-void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Label, QDoubleSpinBox* SpinBox,
-                                                 QString unitLabel, float lowerRange,  float upperRange, float initialVal)
-{
-    QLabel *spinBoxLabel = new QLabel (Label);
-    QLabel *unitBoxLabel = new QLabel (unitLabel);
-
-    SpinBox->setValue(initialVal);
-    SpinBox->setRange(lowerRange, upperRange);
-
-    Layout->addWidget(spinBoxLabel, Row, 0);
-    Layout->addWidget(SpinBox,      Row, 1);
-    Layout->addWidget(unitBoxLabel, Row, 2);
-}
-
-void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Label, QComboBox* comboBox,
-                                                 QString unitLabel)
-{
-    QLabel *comboLabel = new QLabel (Label);
-    QLabel *unitBoxLabel = new QLabel (unitLabel);
-
-    comboBox->addItem("16 (Thick)");
-    comboBox->addItem("18 (Medium)");
-    comboBox->addItem("23 (Thin)");
-
-    Layout->addWidget(comboLabel,    Row, 0);
-    Layout->addWidget(comboBox,      Row, 1);
-    Layout->addWidget(unitBoxLabel,  Row, 2);
-}
-
-
-void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Labels, QString Label2)
-
-{
-    QLabel *labels = new QLabel (Labels);
-    QLabel *dimenLabel = new QLabel (Label2);
-
-
-    Layout->addWidget(labels,     Row, 0);
-    Layout->addWidget(dimenLabel, Row, 1);
-}
-
-
-
-
-
-/*
-
-
-int MainWindow:: load()
-{
-    QFileDialog dialog(this);
-
-    // open the last known working directory
-    if(!m_currentDir.isEmpty())
-        dialog.setDirectory(m_currentDir);
-
-    // display existing files and directories
-    dialog.setFileMode(QFileDialog::ExistingFile);
-
-    // invoke native file browser to select file
-    m_file =  dialog.getOpenFileName(this,
-        "Open File", m_currentDir,
-        "Images (*.jpg *.png *.ppm *.pgm *.bmp);;All files (*)");
-
-    // verify that file selection was made
-    if(m_file.isNull()) return 0;
-
-    // save current directory
-    QFileInfo f(m_file);
-    m_currentDir = f.absolutePath();
-
-   // read input image and convert to grayscale
- //   m_imageSrc = IP::IP_readImage(qPrintable(m_file));
- //   IP_castImage(m_imageSrc, BW_IMAGE, m_imageSrc);
-
-    // update button with filename (without path)
-    m_InputFileButton -> setText(f.fileName());
-    m_InputFileButton -> update();
-
-    // call preview() to display something
-   // preview();
-
-    return 1;
-}
-
-
-
-// Compute preview image.
-void MainWindow::preview()
-{
-    applyFilter(m_imageSrc, m_imageDst);
-
-    // display requested image
-
-    int i;
-    for(i=0; i<2; i++)
-        if(m_radioButton[i]->isChecked()) break;
-    switch(i)
-    {
-    case 0:	displayIn   (); break;
-    case 1:	displayOut  (); break;
-    }
-}
-
-
-
-// Run filter on the image, transforming I1 to I2.
-// Overrides ImageFilterDialog::applyFilter().
-// Return 1 for success, 0 for failure.
-bool MainWindow::applyFilter(ImagePtr I1, ImagePtr I2)
-{
-    // error checking
-    if(I1.isNull()) {
-        IP_printfErr("applyFilter: Missing image");
-        return 0;	// failure
-    }
-
-    // collect parameters
-    double threshold = m_filterSlider[0]-> value();
-
-    // apply filter
-    IP_threshold(I1, threshold, threshold, 0, 0, 255, I2);
-    IP_copyImage(I2, m_imageDst);
-
-    return 1;	// success
-}
-
-
-// Slot functions to display input and output images.
-
-void MainWindow::displayIn   () { display(0); }
-void MainWindow::displayOut  () { display(1); }
-
-void MainWindow::display(int flag)
-{
-    // error checking
-    if(m_imageSrc.isNull()) return;		// no input image
-    if(m_imageDst.isNull())			// compute output image
-        applyFilter(m_imageSrc, m_imageDst);
-
-    // raise the appropriate widget from the stack
-    m_stackWidget->setCurrentIndex(flag);
-
-    // determine image to be displayed
-    ImagePtr I;
-    if(flag == 0)
-        I = m_imageSrc;
-    else	I = m_imageDst;
-
-    // init dimensions of target
-    //int w = m_imageDst->width ();
-    //int h = m_imageDst->height();
-    int w = m_stackWidget->width();
-    int h = m_stackWidget->height();
-
-    // convert from ImagePtr to QImage to Pixmap
-    QImage q;
-    IP_IPtoQImage(I, q);
-    QPixmap p = QPixmap::fromImage(q.scaled(QSize(w,h), Qt::KeepAspectRatio));
-
-    // assign pixmap to label widget for display
-    QLabel *widget = (QLabel *) m_stackWidget->currentWidget();
-    widget->setPixmap(p);
-}
-
-
-
-
-
-
-
-*/
-void MainWindow::quit()
-{
-    // close window
-    close();
-}
-

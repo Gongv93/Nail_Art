@@ -10,9 +10,11 @@
 #include <QtGui>
 #include <QtWidgets>
 #include <QMainWindow>
-//#include "IP.h"
-//#include "IPtoUI.h"
 
+#include "IP.h"
+#include "IPtoUI.h"
+
+using namespace IP;
 
 namespace UI
 {
@@ -26,24 +28,52 @@ namespace UI
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
+ 
 public:
     MainWindow();
    ~MainWindow();
 
 public slots:
+    int  load();
+
+protected slots:
+    void quit();
 
 private:
-    // Private Functions
-    int  load();
-    void quit();
+    // Variables
+    QString        m_file;
+    QString        m_currentDir;
+
+    // image pointers
+    ImagePtr       m_imageSrc;
+    ImagePtr       m_imageDst;
+
+    // Widgets
+    QSlider         *m_filterSlider[5];
+    QRadioButton    *m_radioButton[4];
+    QDoubleSpinBox  *m_filterSpinbox[5];
+    QDoubleSpinBox  *m_dimSpinbox[2];
+    QDoubleSpinBox  *m_widthSpinbox;
+    QDoubleSpinBox  *m_heightSpinbox;
+
+    QPushButton    *m_InputFileButton;
+    QPushButton    *m_InputResetButton;
+    QPushButton    *m_rendReset1Btn;
+    QPushButton    *m_rendReset2Btn;
+    QPushButton    *m_saveButton;
+    QPushButton    *m_quitButton;
+
+    QStackedWidget *m_stackWidget;
+
+    QComboBox* m_comboBox;
+
+    // Functions
     void preview();
     void display(int);
 
     void displayIn	();
     void displayOut	();
-    //bool applyFilter(ImagePtr, ImagePtr);
-
+    bool applyFilter(ImagePtr, ImagePtr);
 
     void createWidgets();                           // Creates our widgets
     void createLayout();                            // Creates the GUI layout
@@ -56,6 +86,7 @@ private:
     void createGroupPhysDim(QGroupBox* groupBox);   // Creates group box for physical dimension
     void createGroupDisplay(QGroupBox* groupBox);   // Creates group box for display
     void createGroupRender(QGroupBox* groupBox);    // Creates group box for renderer
+    void createGroupView(QGroupBox *groupBox);
 
 
     void createGridLayout(QGridLayout* layout, int row, QString label, QSlider* slider,
@@ -68,33 +99,6 @@ private:
                             QString unitLabel);
 
     void createGridLayout(QGridLayout* Layout, int Row, QString Labels, QString Label2);
-
-
-    // Private Member Variables
-
-    // variables
-    QString		   m_file;
-    QString		   m_currentDir;
-
-    // image pointers
-    //ImagePtr	   m_imageSrc;
-    //ImagePtr	   m_imageDst;
-
-    QPushButton    *m_InputFileButton;
-    QPushButton    *m_InputResetButton;
-    QPushButton    *m_rendReset1Btn;
-    QPushButton    *m_rendReset2Btn;
-    QPushButton    *m_saveButton;
-    QPushButton    *m_quitButton;
-
-    QSlider         *m_filterSlider[5];
-    QRadioButton    *m_radioButton[4];
-    QDoubleSpinBox  *m_filterSpinbox[5];
-    QDoubleSpinBox  *m_dimSpinbox[2];
-    QDoubleSpinBox  *m_widthSpinbox;
-    QDoubleSpinBox  *m_heightSpinbox;
-
-    QComboBox* m_comboBox;
 };
 
 #endif
