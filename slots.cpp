@@ -1,3 +1,10 @@
+/* ========================================================================
+   File:    slots.cpp
+   Class:   Senior Design II Csc 59867
+   Creator: Asad Kamal, Vincent Gong, RuLong Haung
+   ======================================================================== */
+
+
 #include "MainWindow.h"
 
 int MainWindow::load()
@@ -26,6 +33,11 @@ int MainWindow::load()
 	// Read input image and convert to grayscale
 	m_imageSrc = IP::IP_readImage(qPrintable(m_file));
 	IP_castImage(m_imageSrc, BW_IMAGE, m_imageSrc); 
+
+
+    // update button with filename (without path)
+    m_InputFileButton->setText(f.fileName());
+    m_InputFileButton->update();
 
 	preview();
 

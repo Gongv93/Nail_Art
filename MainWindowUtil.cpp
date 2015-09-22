@@ -1,3 +1,10 @@
+/* ========================================================================
+   File:    MainWindowUtil.cpp
+   Class:   Senior Design II Csc 59867
+   Creator: Asad Kamal, Vincent Gong, RuLong Haung
+   ======================================================================== */
+
+
 #include "MainWindow.h"
 
 void MainWindow::createGridLayout(QGridLayout* layout, int row, QString label, QSlider* slider,

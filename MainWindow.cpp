@@ -11,7 +11,8 @@ QString GroupBoxStyle = "QGroupBox {                \
                          border-radius: 9px;        \
                          margin-top: 0.5em;}";
 
-int DefualtDisplay = 1;
+
+int DefaultDisplay = 1;
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
@@ -90,8 +91,15 @@ void MainWindow::createConnections()
 
     // init signal/slot connections
     connect(m_InputFileButton, SIGNAL(clicked()), this, SLOT(load()));
-
     connect(m_quitButton, SIGNAL(clicked()), this, SLOT(quit()));
+
+    connect(m_radioButton[0], SIGNAL(clicked()), this, SLOT(displayIn   ()));
+    connect(m_radioButton[1], SIGNAL(clicked()), this, SLOT(displayOut  ()));
+
+
+ // connect(m_filterSlider[0],  SIGNAL(valueChanged(double)), m_filterSpinbox[i], SLOT(setValue(double)));
+ // connect(m_filterSpinbox[0], SIGNAL(valueChanged(double)), m_filterSlider[i],  SLOT(setValue(double)));
+
 }
 
 void MainWindow::createRightLayout(QVBoxLayout *layout)
@@ -136,9 +144,15 @@ void MainWindow::createGroupView(QGroupBox *groupBox)
 
 	QLabel *label;
 	label = (QLabel *) m_stackWidget->widget(0); label->setAlignment(Qt::AlignCenter);
-	label = (QLabel *) m_stackWidget->widget(1); label->setAlignment(Qt::AlignCenter);
+    label = (QLabel *) m_stackWidget->widget(1); label->setAlignment(Qt::AlignCenter);
 
-	m_stackWidget->setCurrentIndex(DefualtDisplay);
+    m_stackWidget->setCurrentIndex(DefaultDisplay);
+
+
+    // assemble stacked widget in vertical layout
+    QVBoxLayout *vbox = new QVBoxLayout;
+    vbox->addWidget(m_stackWidget);
+    groupBox->setLayout(vbox);
 }
 
 void MainWindow::createGroupImage(QGroupBox *groupBox)
@@ -164,9 +178,6 @@ void MainWindow::createGroupFilter(QGroupBox* groupBox)
 
 void MainWindow::createGroupPhysDim(QGroupBox* groupBox)
 {
-    //This section is almost complete
-    //Need to ask wolberg about spacing/Nails/Image
-    //Looks likes he used a text box next to it.
 
     QGridLayout *phyDimLayout = new QGridLayout;
 
@@ -189,7 +200,7 @@ void MainWindow::createGroupDisplay(QGroupBox* groupBox)
     HorzBut->addWidget(m_radioButton[2]);
     HorzBut->addWidget(m_radioButton[3]);
 
-    m_radioButton[DefualtDisplay]->setChecked(true);
+    m_radioButton[DefaultDisplay]->setChecked(true);
 
     groupBox->setLayout(HorzBut);
 }
