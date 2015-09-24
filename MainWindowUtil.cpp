@@ -117,8 +117,7 @@ void MainWindow::display(int flag)
     widget->setPixmap(p);
 }
 
-void
-MainWindow::preview()
+void MainWindow::preview()
 {
     applyFilter(m_imageSrc, m_imageDst);
 

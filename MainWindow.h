@@ -37,6 +37,9 @@ public slots:
     int  load();
     void displayIn	();
     void displayOut	();
+    void reset();
+    void changeThresholdI(int);
+    void changeThresholdD(double);
 
 protected slots:
     void quit();
@@ -72,7 +75,6 @@ private:
     // Functions
     void preview();
     void display(int);
-
     bool applyFilter(ImagePtr, ImagePtr);
 
     void createWidgets();                           // Creates our widgets

@@ -89,16 +89,28 @@ void MainWindow::createConnections()
 {
     // TODO: Create connections with our widgets
 
-    // init signal/slot connections
     connect(m_InputFileButton, SIGNAL(clicked()), this, SLOT(load()));
     connect(m_quitButton, SIGNAL(clicked()), this, SLOT(quit()));
 
     connect(m_radioButton[0], SIGNAL(clicked()), this, SLOT(displayIn   ()));
     connect(m_radioButton[1], SIGNAL(clicked()), this, SLOT(displayOut  ()));
 
+    connect(m_filterSlider[0],  SIGNAL(valueChanged(int)),  this, SLOT(changeThresholdI(int)));
+    connect(m_filterSpinbox[0], SIGNAL(valueChanged(double)),this,  SLOT(changeThresholdD(double)));
 
- // connect(m_filterSlider[0],  SIGNAL(valueChanged(double)), m_filterSpinbox[i], SLOT(setValue(double)));
- // connect(m_filterSpinbox[0], SIGNAL(valueChanged(double)), m_filterSlider[i],  SLOT(setValue(double)));
+    /*
+    connect(m_filterSlider[1],  SIGNAL(valueChanged(int)),  this, SLOT(changeThresholdI(int)));
+    connect(m_filterSpinbox[1], SIGNAL(valueChanged(double)),this,  SLOT(changeThresholdD(double)));
+
+    connect(m_filterSlider[2],  SIGNAL(valueChanged(int)),  this, SLOT(changeThresholdI(int)));
+    connect(m_filterSpinbox[2], SIGNAL(valueChanged(double)),this,  SLOT(changeThresholdD(double)));
+
+    connect(m_filterSlider[3],  SIGNAL(valueChanged(int)),  this, SLOT(changeThresholdI(int)));
+    connect(m_filterSpinbox[3], SIGNAL(valueChanged(double)),this,  SLOT(changeThresholdD(double)));
+
+    connect(m_filterSlider[4],  SIGNAL(valueChanged(int)),  this, SLOT(changeThresholdI(int)));
+    connect(m_filterSpinbox[4], SIGNAL(valueChanged(double)),this,  SLOT(changeThresholdD(double)));
+*/
 
 }
 
@@ -167,13 +179,14 @@ void MainWindow::createGroupFilter(QGroupBox* groupBox)
 {
     QGridLayout *filterLayout = new QGridLayout;
 
-    createGridLayout(filterLayout, 0, "Brightness",  m_filterSlider[0], m_filterSpinbox[0], -256, 256,  0);
-    createGridLayout(filterLayout, 1, "Contrast",    m_filterSlider[1], m_filterSpinbox[1], -100, 100,  0);
-    createGridLayout(filterLayout, 2, "Gamma",       m_filterSlider[2], m_filterSpinbox[2],  0.1f, 10,  5);
-    createGridLayout(filterLayout, 3, "Sharp Size",  m_filterSlider[3], m_filterSpinbox[3],  1,   100, 50);
-    createGridLayout(filterLayout, 4, "Sharp Fctr",  m_filterSlider[4], m_filterSpinbox[4],  1,   100, 50);
+    createGridLayout(filterLayout, 0, "Brightness",  m_filterSlider[0], m_filterSpinbox[0],  -256, 256,  0);
+    createGridLayout(filterLayout, 1, "Contrast",    m_filterSlider[1], m_filterSpinbox[1],  -100, 100,  0);
+    createGridLayout(filterLayout, 2, "Gamma",       m_filterSlider[2], m_filterSpinbox[2],  0.1f,  10,  1);
+    createGridLayout(filterLayout, 3, "Sharp Size",  m_filterSlider[3], m_filterSpinbox[3],     1, 100,  3);
+    createGridLayout(filterLayout, 4, "Sharp Fctr",  m_filterSlider[4], m_filterSpinbox[4],     1, 100,  3);
 
     groupBox->setLayout(filterLayout);
+
 }
 
 void MainWindow::createGroupPhysDim(QGroupBox* groupBox)
