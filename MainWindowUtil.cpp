@@ -66,7 +66,7 @@ void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Labels, 
 
 bool MainWindow::applyFilter(ImagePtr I1, ImagePtr I2)
 {
-	double brightness, contrast;
+	double brightness, contrast, gamma, filterSize, filterFctr;
     // error checking
     if(I1.isNull()) {
         IP_printfErr("applyFilter: Missing image");
@@ -74,6 +74,10 @@ bool MainWindow::applyFilter(ImagePtr I1, ImagePtr I2)
     }
 
     brightness = m_brightness;
+    gamma = m_gamma;
+    filterSize = m_filterSize;
+    filterFctr = m_filterFctr;
+
     if(m_contrast >= 0) {
     	contrast   = m_contrast / 25 + 1;
  	}
@@ -83,6 +87,8 @@ bool MainWindow::applyFilter(ImagePtr I1, ImagePtr I2)
 
     // apply filter
     IP_contrast(I1, brightness, contrast, 128, I2);
+    IP_gammaCorrect(I2, gamma, I2);
+    IP_sharpen(I2, filterSize, filterSize, filterFctr,I2);
     IP_copyImage(I2, m_imageDst);
 
     return 1;   // success
@@ -105,8 +111,6 @@ void MainWindow::display(int flag)
     else    I = m_imageDst;
 
     // init dimensions of target
-    //int w = m_imageDst->width ();
-    //int h = m_imageDst->height();
     int w = m_stackWidget->width();
     int h = m_stackWidget->height();
 

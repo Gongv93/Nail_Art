@@ -89,6 +89,63 @@ void MainWindow::changeContrastI(int val)
     preview();
 }
 
+void MainWindow::changeGammaD(double val){
+	changeGammaI((int)val);	
+}
+
+void MainWindow::changeGammaI(int val)
+{
+	m_filterSlider [2]->blockSignals(true);
+    m_filterSlider [2]->setValue    (val);
+    m_filterSlider [2]->blockSignals(false);
+    m_filterSpinbox[2]->blockSignals(true);
+    m_filterSpinbox[2]->setValue    (val);
+    m_filterSpinbox[2]->blockSignals(false);
+
+    m_gamma = val;
+
+    // apply new values to stored image
+    preview();
+}
+
+void MainWindow::changeSharpenSizeD(double val){
+	changeSharpenSizeI((int)val);	
+}
+
+void MainWindow::changeSharpenSizeI(int val)
+{
+	m_filterSlider [3]->blockSignals(true);
+    m_filterSlider [3]->setValue    (val);
+    m_filterSlider [3]->blockSignals(false);
+    m_filterSpinbox[3]->blockSignals(true);
+    m_filterSpinbox[3]->setValue    (val);
+    m_filterSpinbox[3]->blockSignals(false);
+
+    m_filterSize = val;
+
+    // apply new values to stored image
+    preview();
+}
+
+void MainWindow::changeSharpenFctrD(double val){
+	changeSharpenFctrI((int)val);	
+}
+
+void MainWindow::changeSharpenFctrI(int val)
+{
+	m_filterSlider [4]->blockSignals(true);
+    m_filterSlider [4]->setValue    (val);
+    m_filterSlider [4]->blockSignals(false);
+    m_filterSpinbox[4]->blockSignals(true);
+    m_filterSpinbox[4]->setValue    (val);
+    m_filterSpinbox[4]->blockSignals(false);
+
+    m_filterFctr = val;
+
+    // apply new values to stored image
+    preview();
+}
+
 void MainWindow::displayIn   () { display(0); }
 void MainWindow::displayOut  () { display(1); }
 

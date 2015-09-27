@@ -43,6 +43,12 @@ public slots:
     void changeBrightnessD(double);
     void changeContrastI(int);
     void changeContrastD(double);
+    void changeGammaI(int);
+    void changeGammaD(double);
+    void changeSharpenSizeI(int);
+    void changeSharpenSizeD(double);
+    void changeSharpenFctrI(int);
+    void changeSharpenFctrD(double);
 
 protected slots:
     void quit();
@@ -77,6 +83,9 @@ private:
     // Filter variables
     double m_brightness;
     double m_contrast;
+    double m_gamma;
+    double m_filterSize;
+    double m_filterFctr;
 
 
     // Functions

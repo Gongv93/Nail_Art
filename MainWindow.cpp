@@ -38,6 +38,9 @@ void MainWindow::applyDefaultFilter()
 {
     m_brightness = 0;
     m_contrast = 1;
+    m_gamma = 1;
+    m_filterSize = 3;
+    m_filterFctr = 3; 
 }
 
 void MainWindow::createWidgets()
@@ -94,8 +97,6 @@ void MainWindow::createLayout()
 
 void MainWindow::createConnections()
 {
-    // TODO: Create connections with our widgets
-
     connect(m_InputFileButton, SIGNAL(clicked()), this, SLOT(load()));
     connect(m_quitButton, SIGNAL(clicked()), this, SLOT(quit()));
 
@@ -107,17 +108,15 @@ void MainWindow::createConnections()
   
     connect(m_filterSlider[1],  SIGNAL(valueChanged(int)),  this, SLOT(changeContrastI(int)));
     connect(m_filterSpinbox[1], SIGNAL(valueChanged(double)),this,  SLOT(changeContrastD(double)));
-/*
-    connect(m_filterSlider[2],  SIGNAL(valueChanged(int)),  this, SLOT(changeThresholdI(int)));
-    connect(m_filterSpinbox[2], SIGNAL(valueChanged(double)),this,  SLOT(changeThresholdD(double)));
 
-    connect(m_filterSlider[3],  SIGNAL(valueChanged(int)),  this, SLOT(changeThresholdI(int)));
-    connect(m_filterSpinbox[3], SIGNAL(valueChanged(double)),this,  SLOT(changeThresholdD(double)));
+    connect(m_filterSlider[2],  SIGNAL(valueChanged(int)),  this, SLOT(changeGammaI(int)));
+    connect(m_filterSpinbox[2], SIGNAL(valueChanged(double)),this,  SLOT(changeGammaD(double)));
 
-    connect(m_filterSlider[4],  SIGNAL(valueChanged(int)),  this, SLOT(changeThresholdI(int)));
-    connect(m_filterSpinbox[4], SIGNAL(valueChanged(double)),this,  SLOT(changeThresholdD(double)));
-*/
+    connect(m_filterSlider[3],  SIGNAL(valueChanged(int)),  this, SLOT(changeSharpenSizeI(int)));
+    connect(m_filterSpinbox[3], SIGNAL(valueChanged(double)),this,  SLOT(changeSharpenSizeD(double)));
 
+    connect(m_filterSlider[4],  SIGNAL(valueChanged(int)),  this, SLOT(changeSharpenFtcrI(int)));
+    connect(m_filterSpinbox[4], SIGNAL(valueChanged(double)),this,  SLOT(changeSharpenFctrD(double)));
 }
 
 void MainWindow::createRightLayout(QVBoxLayout *layout)
@@ -192,7 +191,6 @@ void MainWindow::createGroupFilter(QGroupBox* groupBox)
     createGridLayout(filterLayout, 4, "Sharp Fctr",  m_filterSlider[4], m_filterSpinbox[4],     1, 100,  3);
 
     groupBox->setLayout(filterLayout);
-
 }
 
 void MainWindow::createGroupPhysDim(QGroupBox* groupBox)
