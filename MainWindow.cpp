@@ -116,7 +116,7 @@ void MainWindow::createConnections()
     connect(m_filterSlider[3],  SIGNAL(valueChanged(int)),  this, SLOT(changeSharpenSizeI(int)));
     connect(m_filterSpinbox[3], SIGNAL(valueChanged(double)),this,  SLOT(changeSharpenSizeD(double)));
 
-    connect(m_filterSlider[4],  SIGNAL(valueChanged(int)),  this, SLOT(changeSharpenFtcrI(int)));
+    connect(m_filterSlider[4],  SIGNAL(valueChanged(int)),  this, SLOT(changeSharpenFctrI(int)));
     connect(m_filterSpinbox[4], SIGNAL(valueChanged(double)),this,  SLOT(changeSharpenFctrD(double)));
 }
 
