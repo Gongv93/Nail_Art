@@ -88,9 +88,6 @@ bool MainWindow::applyFilter(ImagePtr I1, ImagePtr I2)
     return 1;   // success
 }
 
-void MainWindow::displayIn   () { display(0); }
-void MainWindow::displayOut  () { display(1); }
-
 void MainWindow::display(int flag)
 {
     // error checking

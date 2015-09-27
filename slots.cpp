@@ -89,6 +89,9 @@ void MainWindow::changeContrastI(int val)
     preview();
 }
 
+void MainWindow::displayIn   () { display(0); }
+void MainWindow::displayOut  () { display(1); }
+
 // Slot to reset threshold parameter
 void MainWindow::reset()
 {

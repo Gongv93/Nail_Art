@@ -37,6 +37,8 @@ public slots:
     // Slots.cpp
     int  load();
     void reset();
+    void displayIn  ();
+    void displayOut ();
     void changeBrightnessI(int);
     void changeBrightnessD(double);
     void changeContrastI(int);
@@ -96,8 +98,6 @@ private:
     // MainWindowUtil.cpp
     void preview();
     void display(int);
-    void displayIn  ();
-    void displayOut ();
     bool applyFilter(ImagePtr, ImagePtr);
 
     void createGridLayout(QGridLayout* layout, int row, QString label, QSlider* slider,
