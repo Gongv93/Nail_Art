@@ -16,5 +16,4 @@ win32-msvc2013 {
 
 # Input
 HEADERS += MainWindow.h
-FORMS += mainwindow.ui
 SOURCES += main.cpp MainWindow.cpp MainWindowUtil.cpp slots.cpp
