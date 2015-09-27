@@ -99,6 +99,7 @@ void MainWindow::createConnections()
 {
     connect(m_InputFileButton, SIGNAL(clicked()), this, SLOT(load()));
     connect(m_quitButton, SIGNAL(clicked()), this, SLOT(quit()));
+    connect(m_InputResetButton, SIGNAL(clicked()), this, SLOT(reset()));
 
     connect(m_radioButton[0], SIGNAL(clicked()), this, SLOT(displayIn   ()));
     connect(m_radioButton[1], SIGNAL(clicked()), this, SLOT(displayOut  ()));

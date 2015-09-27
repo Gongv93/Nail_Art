@@ -153,6 +153,18 @@ void MainWindow::displayOut  () { display(1); }
 void MainWindow::reset()
 {
     m_filterSlider[0]->setValue(128);
+    
+    m_brightness = 0;
+    m_contrast = 1;
+    m_gamma = 1;
+    m_filterSize = 3;
+    m_filterFctr = 3; 
+
+    m_filterSlider[0]->setValue(m_brightness);
+    m_filterSlider[1]->setValue(m_contrast);
+    m_filterSlider[2]->setValue(m_gamma);
+    m_filterSlider[3]->setValue(m_filterSize);
+    m_filterSlider[4]->setValue(m_filterFctr);
 
     // apply new values to stored image
     preview();
