@@ -66,17 +66,23 @@ void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Labels, 
 
 bool MainWindow::applyFilter(ImagePtr I1, ImagePtr I2)
 {
+	double brightness, contrast;
     // error checking
     if(I1.isNull()) {
         IP_printfErr("applyFilter: Missing image");
         return 0;   // failure
     }
 
-    // collect parameters
-    double threshold = 100;
+    brightness = m_brightness;
+    if(m_contrast >= 0) {
+    	contrast   = m_contrast / 25 + 1;
+ 	}
+ 	else {
+ 		contrast = 1 + (m_contrast/ 133);
+ 	}
 
     // apply filter
-    IP_threshold(I1, threshold, threshold, 0, 0, 255, I2);
+    IP_contrast(I1, brightness, contrast, 128, I2);
     IP_copyImage(I2, m_imageDst);
 
     return 1;   // success

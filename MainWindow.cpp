@@ -21,6 +21,7 @@ int DefaultDisplay = 1;
 
 MainWindow::MainWindow()
 {
+    applyDefaultFilter();
     createWidgets();	// Create the widgets we will use
     createLayout();		// Create the window layout
     createConnections();
@@ -32,6 +33,12 @@ MainWindow::MainWindow()
 //
 
 MainWindow::~MainWindow() {}
+
+void MainWindow::applyDefaultFilter()
+{
+    m_brightness = 0;
+    m_contrast = 1;
+}
 
 void MainWindow::createWidgets()
 {
@@ -95,13 +102,12 @@ void MainWindow::createConnections()
     connect(m_radioButton[0], SIGNAL(clicked()), this, SLOT(displayIn   ()));
     connect(m_radioButton[1], SIGNAL(clicked()), this, SLOT(displayOut  ()));
 
-    connect(m_filterSlider[0],  SIGNAL(valueChanged(int)),  this, SLOT(changeThresholdI(int)));
-    connect(m_filterSpinbox[0], SIGNAL(valueChanged(double)),this,  SLOT(changeThresholdD(double)));
-
-    /*
-    connect(m_filterSlider[1],  SIGNAL(valueChanged(int)),  this, SLOT(changeThresholdI(int)));
-    connect(m_filterSpinbox[1], SIGNAL(valueChanged(double)),this,  SLOT(changeThresholdD(double)));
-
+    connect(m_filterSlider[0],  SIGNAL(valueChanged(int)),  this, SLOT(changeBrightnessI(int)));
+    connect(m_filterSpinbox[0], SIGNAL(valueChanged(double)),this,  SLOT(changeBrightnessD(double)));
+  
+    connect(m_filterSlider[1],  SIGNAL(valueChanged(int)),  this, SLOT(changeContrastI(int)));
+    connect(m_filterSpinbox[1], SIGNAL(valueChanged(double)),this,  SLOT(changeContrastD(double)));
+/*
     connect(m_filterSlider[2],  SIGNAL(valueChanged(int)),  this, SLOT(changeThresholdI(int)));
     connect(m_filterSpinbox[2], SIGNAL(valueChanged(double)),this,  SLOT(changeThresholdD(double)));
 

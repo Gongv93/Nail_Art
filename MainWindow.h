@@ -34,12 +34,13 @@ public:
    ~MainWindow();
 
 public slots:
+    // Slots.cpp
     int  load();
-    void displayIn	();
-    void displayOut	();
     void reset();
-    void changeThresholdI(int);
-    void changeThresholdD(double);
+    void changeBrightnessI(int);
+    void changeBrightnessD(double);
+    void changeContrastI(int);
+    void changeContrastD(double);
 
 protected slots:
     void quit();
@@ -69,14 +70,16 @@ private:
     QPushButton    *m_quitButton;
 
     QStackedWidget *m_stackWidget;
-
     QComboBox* m_comboBox;
 
-    // Functions
-    void preview();
-    void display(int);
-    bool applyFilter(ImagePtr, ImagePtr);
+    // Filter variables
+    double m_brightness;
+    double m_contrast;
 
+
+    // Functions
+    // MainWindow.cpp
+    void applyDefaultFilter();                      // Sets our filter variables
     void createWidgets();                           // Creates our widgets
     void createLayout();                            // Creates the GUI layout
     void createConnections();                       // Create connections for our widgets
@@ -90,6 +93,12 @@ private:
     void createGroupRender(QGroupBox* groupBox);    // Creates group box for renderer
     void createGroupView(QGroupBox *groupBox);
 
+    // MainWindowUtil.cpp
+    void preview();
+    void display(int);
+    void displayIn  ();
+    void displayOut ();
+    bool applyFilter(ImagePtr, ImagePtr);
 
     void createGridLayout(QGridLayout* layout, int row, QString label, QSlider* slider,
                             QDoubleSpinBox* spinBox, float lowerRange, float upperRange, float initialVal);   // Creates our slider with a spinner and label

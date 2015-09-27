@@ -45,16 +45,15 @@ int MainWindow::load()
 	return 1;
 }
 
-void MainWindow::changeThresholdD(double val)
+void MainWindow::changeBrightnessD(double val)
 {
-    changeThresholdI((int) val);
+    changeBrightnessI((int) val);
 }
 
 // Slot to process change in threshold value caused by moving the slider.
 
-void MainWindow::changeThresholdI(int val)
+void MainWindow::changeBrightnessI(int val)
 {
-
     m_filterSlider [0]->blockSignals(true);
     m_filterSlider [0]->setValue    (val);
     m_filterSlider [0]->blockSignals(false);
@@ -62,13 +61,33 @@ void MainWindow::changeThresholdI(int val)
     m_filterSpinbox[0]->setValue    (val);
     m_filterSpinbox[0]->blockSignals(false);
 
+    m_brightness = val;
 
     // apply new values to stored image
     preview();
 }
 
+void MainWindow::changeContrastD(double val)
+{
+    changeContrastI((int) val);
+}
 
+// Slot to process change in threshold value caused by moving the slider.
 
+void MainWindow::changeContrastI(int val)
+{
+    m_filterSlider [1]->blockSignals(true);
+    m_filterSlider [1]->setValue    (val);
+    m_filterSlider [1]->blockSignals(false);
+    m_filterSpinbox[1]->blockSignals(true);
+    m_filterSpinbox[1]->setValue    (val);
+    m_filterSpinbox[1]->blockSignals(false);
+
+    m_contrast = val;
+
+    // apply new values to stored image
+    preview();
+}
 
 // Slot to reset threshold parameter
 void MainWindow::reset()
@@ -78,7 +97,6 @@ void MainWindow::reset()
     // apply new values to stored image
     preview();
 }
-
 
 void MainWindow::quit()
 {
