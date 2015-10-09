@@ -39,6 +39,8 @@ public slots:
     void reset();
     void displayIn  ();
     void displayOut ();
+    void changeArtSize();
+    void changeComboBox(int);
     void changeBrightnessI(int);
     void changeBrightnessD(double);
     void changeContrastI(int);
@@ -62,6 +64,9 @@ private:
     ImagePtr       m_imageSrc;
     ImagePtr       m_imageDst;
 
+    int            m_artWidth;
+    int            m_artHeight;
+
     // Widgets
     QSlider         *m_filterSlider[5];
     QRadioButton    *m_radioButton[4];
@@ -76,6 +81,9 @@ private:
     QPushButton    *m_rendReset2Btn;
     QPushButton    *m_saveButton;
     QPushButton    *m_quitButton;
+    QLabel         *m_labelSize;
+    QLabel         *m_labelNails;
+    QLabel         *m_labelSpacing;
 
     QStackedWidget *m_stackWidget;
     QComboBox* m_comboBox;
@@ -118,7 +126,7 @@ private:
     void createGridLayout(QGridLayout* Layout, int Row, QString Label, QComboBox* comboBox,
                             QString unitLabel);
 
-    void createGridLayout(QGridLayout* Layout, int Row, QString Labels, QString Label2);
+    void createGridLayout(QGridLayout* Layout, int Row, QString Labels, QLabel *Label2);
 };
 
 #endif

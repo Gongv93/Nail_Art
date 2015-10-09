@@ -34,6 +34,8 @@ int MainWindow::load()
 	m_imageSrc = IP::IP_readImage(qPrintable(m_file));
 	IP_castImage(m_imageSrc, BW_IMAGE, m_imageSrc); 
 
+    m_artWidth  = m_imageSrc->width();
+    m_artHeight = m_imageSrc->height();
 
     // update button with filename (without path)
     m_InputFileButton->setText(f.fileName());
@@ -43,6 +45,26 @@ int MainWindow::load()
 
 	// Return 1 on success
 	return 1;
+}
+
+void MainWindow::changeComboBox(int index)
+{
+    // Get our value from our combo box
+    float n = m_comboBox->itemData(index).toFloat();
+    
+    // Then convert it to a string
+    QString s;
+    s.setNum(n, 'g', 6);
+
+    // Set our label
+    m_labelSpacing->setText(s);
+    
+    preview();
+}
+
+void MainWindow::changeArtSize()
+{
+    preview();
 }
 
 void MainWindow::changeBrightnessD(double val)

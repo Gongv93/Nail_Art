@@ -43,9 +43,9 @@ void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Label, Q
     QLabel *comboLabel = new QLabel (Label);
     QLabel *unitBoxLabel = new QLabel (unitLabel);
 
-    comboBox->addItem("16 (Thick)");
-    comboBox->addItem("18 (Medium)");
-    comboBox->addItem("23 (Thin)");
+    comboBox->addItem("16 (Thick)", 0.23622f);
+    comboBox->addItem("18 (Medium)", 0.15748f);
+    comboBox->addItem("23 (Thin)", 0.11811f);
 
     Layout->addWidget(comboLabel,    Row, 0);
     Layout->addWidget(comboBox,      Row, 1);
@@ -53,15 +53,13 @@ void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Label, Q
 }
 
 
-void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Labels, QString Label2)
+void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Labels, QLabel *Label2)
 
 {
     QLabel *labels = new QLabel (Labels);
-    QLabel *dimenLabel = new QLabel (Label2);
 
-
-    Layout->addWidget(labels,     Row, 0);
-    Layout->addWidget(dimenLabel, Row, 1);
+    Layout->addWidget(labels, Row, 0);
+    Layout->addWidget(Label2, Row, 1);
 }
 
 bool MainWindow::applyFilter(ImagePtr I1, ImagePtr I2)
@@ -85,10 +83,14 @@ bool MainWindow::applyFilter(ImagePtr I1, ImagePtr I2)
  		contrast = 1 + (m_contrast/ 133);
  	}
 
+ 	int w = 16/ 0.23622f;
+ 	int h = 16/ 0.23622f;
+
     // apply filter
-    IP_contrast(I1, brightness, contrast, 128, I2);
-    IP_gammaCorrect(I2, gamma, I2);
+    IP_resize(I1, w, h, IP::TRIANGLE, I2);
+    IP_contrast(I2, brightness, contrast, 128, I2);
     IP_sharpen(I2, filterSize, filterSize, filterFctr,I2);
+    IP_ditherDiffuse(I2, IP::JARVIS_JUDICE_NINKE, gamma, I2);
     IP_copyImage(I2, m_imageDst);
 
     return 1;   // success
@@ -101,18 +103,23 @@ void MainWindow::display(int flag)
     if(m_imageDst.isNull())         // compute output image
         applyFilter(m_imageSrc, m_imageDst);
 
+    int w, h;
+
     // raise the appropriate widget from the stack
     m_stackWidget->setCurrentIndex(flag);
 
     // determine image to be displayed
     ImagePtr I;
-    if(flag == 0)
+    if(flag == 0) {
         I = m_imageSrc;
-    else    I = m_imageDst;
-
-    // init dimensions of target
-    int w = m_stackWidget->width();
-    int h = m_stackWidget->height();
+        w = m_stackWidget->width();
+        h = m_stackWidget->height();
+    }
+    else {
+        I = m_imageDst;
+    	w = m_widthSpinbox->value() / m_comboBox->itemData(m_comboBox->currentIndex()).toFloat();
+        h = m_heightSpinbox->value() / m_comboBox->itemData(m_comboBox->currentIndex()).toFloat();
+    }
 
     // convert from ImagePtr to QImage to Pixmap
     QImage q;

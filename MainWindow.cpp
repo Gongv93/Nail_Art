@@ -59,6 +59,10 @@ void MainWindow::createWidgets()
     m_radioButton[2] = new QRadioButton ("Orthographic View");
     m_radioButton[3] = new QRadioButton ("Perspective View");
 
+    m_labelNails = new QLabel("");
+    m_labelSize  = new QLabel("");
+    m_labelSpacing = new QLabel("0.15748");
+
     m_widthSpinbox  = new QDoubleSpinBox;
     m_heightSpinbox = new QDoubleSpinBox;
 
@@ -100,6 +104,10 @@ void MainWindow::createConnections()
     connect(m_InputFileButton, SIGNAL(clicked()), this, SLOT(load()));
     connect(m_quitButton, SIGNAL(clicked()), this, SLOT(quit()));
     connect(m_InputResetButton, SIGNAL(clicked()), this, SLOT(reset()));
+    connect(m_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeComboBox(int)));
+
+    connect(m_widthSpinbox,SIGNAL(valueChanged(double)), this, SLOT(changeArtSize()));
+    connect(m_heightSpinbox,SIGNAL(valueChanged(double)), this, SLOT(changeArtSize()));
 
     connect(m_radioButton[0], SIGNAL(clicked()), this, SLOT(displayIn   ()));
     connect(m_radioButton[1], SIGNAL(clicked()), this, SLOT(displayOut  ()));
@@ -203,9 +211,9 @@ void MainWindow::createGroupPhysDim(QGroupBox* groupBox)
     createGridLayout(phyDimLayout, 1, "Art Height", m_heightSpinbox, "In", -100, 100,  16.00);
     createGridLayout(phyDimLayout, 2, "Gauge",      m_comboBox,       "");
 
-    createGridLayout(phyDimLayout, 3, "Spacing:",  "0.15748");
-    createGridLayout(phyDimLayout, 4, "Nails:",           "");
-    createGridLayout(phyDimLayout, 5, "Image:",           "");
+    createGridLayout(phyDimLayout, 3, "Spacing:",  m_labelSpacing);
+    createGridLayout(phyDimLayout, 4, "Nails:",    m_labelNails);
+    createGridLayout(phyDimLayout, 5, "Image:",    m_labelSpacing);
 
     groupBox->setLayout(phyDimLayout);
 }
