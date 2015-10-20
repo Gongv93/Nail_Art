@@ -44,8 +44,6 @@ int MainWindow::load()
 	QString s;
 	s.setNum(m_ratio, 'g', 6);
 
-	// Set our label
-	m_labelNails->setText(s);
 	// update button with filename (without path)
 	m_InputFileButton->setText(f.fileName());
 	m_InputFileButton->update();
