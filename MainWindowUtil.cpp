@@ -66,6 +66,9 @@ void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Labels, 
 bool MainWindow::applyFilter(ImagePtr I1, ImagePtr I2)
 {
 	double brightness, contrast, gamma, filterSize, filterFctr;
+	int histo[256];
+	double a = 5.0;
+	double b = 6.0;
 	// error checking
 	if (I1.isNull()) {
 		IP_printfErr("applyFilter: Missing image");
@@ -85,12 +88,8 @@ bool MainWindow::applyFilter(ImagePtr I1, ImagePtr I2)
 		contrast = 1 + (m_contrast / 133);
 	}
 
-	//int w = 16 / 0.23622f;
-    //int h = 16 / 0.23622f;
 	int w = m_disWidth / m_spacing;
 	int h = m_disHeight / m_spacing;
-
-	
 
 	// apply filter
 	IP_resize(I1, w, h, IP::TRIANGLE, I2);
@@ -99,6 +98,14 @@ bool MainWindow::applyFilter(ImagePtr I1, ImagePtr I2)
 	IP_ditherDiffuse(I2, IP::JARVIS_JUDICE_NINKE, gamma, I2);
 	IP_copyImage(I2, m_imageDst);
 
+	IP_histogram(I2, 0, histo, 256, a, b);
+
+	QString Nails = QString("%1 Nails").arg(histo[0]);
+	m_labelNails->setText(Nails);
+
+	QString artSize = QString("%1x%2 px").arg(I2->width()).arg(I2->height());
+	m_labelSize->setText(artSize);
+	
 	return 1;   // success
 }
 

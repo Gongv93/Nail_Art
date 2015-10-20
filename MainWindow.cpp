@@ -216,7 +216,7 @@ void MainWindow::createGroupPhysDim(QGroupBox* groupBox)
 
 	createGridLayout(phyDimLayout, 3, "Spacing:", m_labelSpacing);
 	createGridLayout(phyDimLayout, 4, "Nails:", m_labelNails);
-	createGridLayout(phyDimLayout, 5, "Image:", m_labelSpacing);
+	createGridLayout(phyDimLayout, 5, "Image:", m_labelSize);
 
 	groupBox->setLayout(phyDimLayout);
 }
