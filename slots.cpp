@@ -201,17 +201,24 @@ void MainWindow::reset()
 	m_gamma = 1;
 	m_filterSize = 3;
 	m_filterFctr = 3;
-	m_ratio = 1;
+
+    m_artWidth  = m_imageSrc->width();
+    m_artHeight = m_imageSrc->height();
+    m_ratio= m_artHeight / m_artWidth;
+
 	m_disHeight = 16;
 	m_disWidth = 16;
+    m_spacing = 0.23622;
 
 	m_filterSlider[0]->setValue(m_brightness);
 	m_filterSlider[1]->setValue(m_contrast);
 	m_filterSlider[2]->setValue(m_gamma);
 	m_filterSlider[3]->setValue(m_filterSize);
 	m_filterSlider[4]->setValue(m_filterFctr);
-	m_dimSpinbox[1]->setValue(m_disHeight);
-	m_dimSpinbox[0]->setValue(m_disWidth);
+
+
+    m_dimSpinbox[0]->setValue(m_disWidth);
+    m_dimSpinbox[1]->setValue(m_disHeight);
 
 	// apply new values to stored image
 	preview();

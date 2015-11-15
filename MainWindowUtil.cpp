@@ -86,7 +86,7 @@ bool MainWindow::applyFilter(ImagePtr I1, ImagePtr I2)
 	}
 	else {
 		contrast = 1 + (m_contrast / 133);
-	}
+    }
 
 	int w = m_disWidth / m_spacing;
 	int h = m_disHeight / m_spacing;
@@ -98,7 +98,7 @@ bool MainWindow::applyFilter(ImagePtr I1, ImagePtr I2)
 	IP_ditherDiffuse(I2, IP::JARVIS_JUDICE_NINKE, gamma, I2);
 	IP_copyImage(I2, m_imageDst);
 
-	IP_histogram(I2, 0, histo, 256, a, b);
+    IP_histogram(I2, 0, histo, 256, a, b);
 
 	QString Nails = QString("%1 Nails").arg(histo[0]);
 	m_labelNails->setText(Nails);

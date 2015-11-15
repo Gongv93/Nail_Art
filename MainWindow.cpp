@@ -1,5 +1,5 @@
 /* ========================================================================
-File:    main.cpp
+File:    mainwindow.cpp
 Class:   Senior Design II Csc 59867
 Creator: Asad Kamal, Vincent Gong, RuLong Haung
 ======================================================================== */

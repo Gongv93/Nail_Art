@@ -1,5 +1,5 @@
 /* ========================================================================
-File:    main.cpp
+File:    mainwindow.h
 Class:   Senior Design II Csc 59867
 Creator: Asad Kamal, Vincent Gong, RuLong Haung
 ======================================================================== */
@@ -65,10 +65,10 @@ private:
 	ImagePtr       m_imageSrc;
 	ImagePtr       m_imageDst;
 
-	double            m_artWidth;
-	double            m_artHeight;
-	double		m_disWidth;
-	double		m_disHeight;
+    double         m_artWidth;
+    double         m_artHeight;
+    double         m_disWidth;
+    double         m_disHeight;
 
 	double		   m_ratio;
 
