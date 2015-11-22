@@ -53,6 +53,7 @@ private:
     bool		m_orthoView;
     float		m_rotation [3];
     float		m_cameraPos[3];
+    GLWidget   *m_glwidget;
 };
 
 #endif // GLWIDGET_H

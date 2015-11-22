@@ -33,7 +33,7 @@ public:
 	MainWindow();
 	~MainWindow();
 
-	public slots:
+public slots:
 	// Slots.cpp
 	int  load();
 	void reset();
@@ -53,7 +53,7 @@ public:
 	void changeSharpenFctrI(int);
 	void changeSharpenFctrD(double);
 
-	protected slots:
+protected slots:
 	void quit();
 
 private:
@@ -65,10 +65,10 @@ private:
 	ImagePtr       m_imageSrc;
 	ImagePtr       m_imageDst;
 
-    double         m_artWidth;
-    double         m_artHeight;
     double         m_disWidth;
     double         m_disHeight;
+    double         m_artWidth;
+    double         m_artHeight;
 
 	double		   m_ratio;
 

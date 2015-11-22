@@ -15,5 +15,5 @@ win32-msvc2013 {
 }
 
 # Input
-HEADERS += MainWindow.h
-SOURCES += main.cpp MainWindow.cpp MainWindowUtil.cpp slots.cpp
+HEADERS += MainWindow.h glwidget.h
+SOURCES += main.cpp MainWindow.cpp MainWindowUtil.cpp slots.cpp glwidget.cpp

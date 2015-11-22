@@ -6,10 +6,10 @@ Creator: Asad Kamal, Vincent Gong, RuLong Haung
 
 #include "MainWindow.h"
 
-QString GroupBoxStyle = "QGroupBox {                \
-						                         border: 2px solid gray;    \
-												                          border-radius: 9px;        \
-																		                           margin-top: 0.5em;}";
+QString GroupBoxStyle = "QGroupBox {               \
+						border: 2px solid gray;    \
+						border-radius: 9px;        \
+						margin-top: 0.5em;}";
 
 
 int DefaultDisplay = 1;

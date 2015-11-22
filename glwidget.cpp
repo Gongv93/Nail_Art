@@ -59,7 +59,7 @@ void GLWidget::paintGL()
     //....
 
     // bring origin back to camera position to invert translation below
-    glTranslatef(x, y, 0);
+    //glTranslatef(x, y, 0);
 
     // update transformation for rotation about x-, y-, and z-axes
     //TODO:
@@ -68,7 +68,7 @@ void GLWidget::paintGL()
     //glRotatef(m_rotation[2], ...);	// ccw rotation about z-axis
 
     // bring orthographic projection of camera position to the origin
-    glTranslatef(-x, -y, 0);
+    //glTranslatef(-x, -y, 0);
 
     // draw nails
     initDisplayLists(1);
@@ -158,7 +158,7 @@ void GLWidget::initDisplayLists(int flag)
         glNewList(m_boardList, GL_COMPILE);
 
         // compute aspect ratio
-        //....
+        float ar = (float) m_windowW / m_windowH;
 
         if(m_artWidth > m_artHeight)
             drawBoard(2, 2/ar, .05);
@@ -289,7 +289,7 @@ void GLWidget::drawNails()
 
     glPushMatrix();
     glTranslatef(-1, 1, 0);
-    glScalef(s, s, s);
+    //glScalef(s, s, s);
 
     // draw array of scaled cylinders
     int type;
@@ -305,7 +305,7 @@ void GLWidget::drawNails()
             //.....
         }
         glPopMatrix();
-        glTranslatef(0., -dy, 0.);
+        //glTranslatef(0., -dy, 0.);
     }
     glPopMatrix();
 }
