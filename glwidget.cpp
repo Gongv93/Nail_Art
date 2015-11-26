@@ -6,6 +6,7 @@
 
 #include "GLWidget.h"
 #include "MainWindow.h"
+#include <QtGlobal>
 
 #define INIT_DEPTH 3
 
@@ -52,26 +53,32 @@ void GLWidget::paintGL()
     // reset transformation matrix to identity matrix
     glLoadIdentity();
 
+    //defining x,y,z
+
+    float x = m_cameraPos[0];
+    float y = m_cameraPos[1];
+    float z = qMax(m_cameraPos[2], 1.0f);
+
     // move camera to (x,y,z);
     // clip z so that it is always > 1 to be in front of nailart;
     // look straight ahead: (x,y,z) looks at (x,y,0)
-    // use gluLookAt()
-    //....
+    // use gluLookAt(eyeX,eyeY,eyeZ, centerX,centerY,centerZ, upX,upY,upZ)
+    gluLookAt(x,y,z, x,y,0, 0,1,0);
 
     // bring origin back to camera position to invert translation below
-    //glTranslatef(x, y, 0);
+    glTranslatef(x, y, 0);
 
     // update transformation for rotation about x-, y-, and z-axes
-    //TODO:
-    //glRotatef(m_rotation[0], ...);	//  cw rotation about x-axis
-    //glRotatef(m_rotation[1], ...);	// ccw rotation about y-axis
-    //glRotatef(m_rotation[2], ...);	// ccw rotation about z-axis
+    glRotatef(m_rotation[0], 1, 0, 0);	//  cw rotation about x-axis
+    glRotatef(m_rotation[1], 0, 1, 0);	// ccw rotation about y-axis
+    glRotatef(m_rotation[2], 0, 0, 1);	// ccw rotation about z-axis
 
     // bring orthographic projection of camera position to the origin
-    //glTranslatef(-x, -y, 0);
+    glTranslatef(-x, -y, 0);
 
     // draw nails
-    initDisplayLists(1);
+    //initDisplayLists(1); //1 or 0
+    initDisplayLists(0);
     glCallList(m_nailsList);
 }
 
@@ -159,12 +166,12 @@ void GLWidget::initDisplayLists(int flag)
 
         // compute aspect ratio
         float ar = (float) m_windowW / m_windowH;
-
-        if(m_artWidth > m_artHeight)
+/*
+        if(artWidth > artHeight)
             drawBoard(2, 2/ar, .05);
         else	drawBoard(2*ar, 2, .05);
         glEndList();
-
+*/
         // draw single nail
         m_nailList = glGenLists(1);
         glNewList(m_nailList, GL_COMPILE);
@@ -188,51 +195,52 @@ void GLWidget::drawBoard(float w, float h, float d)
     w /= 2;
     h /= 2;
 
+    //Set depth at 1.0(can inc or dec later)
+    d = 1.0;
+
     // set the color to white
     glColor3f(1.0, 1.0, 1.0);
 
     // draw six quadrilaterals for six sides of the board
     glBegin(GL_QUADS);
-        // front
+        // Front Side
+        glVertex3f( w,  h,  d);   //Front Side= Top Right Corner
+        glVertex3f(-w,  h,  d);   //Front Side= Top Left  Corner
+        glVertex3f(-w, -h,  d);   //Front Side= Btm Left  Corner
+        glVertex3f( w, -h,  d);   //Front Side= Btm Right Corner
 
-        //TODO:
-        //glVertex3f(.........);
-        //glVertex3f(.........);
-        //glVertex3f(.........);
-        //glVertex3f(.........);
-
-        // back
-        //glVertex3f(.........);
-        //glVertex3f(.........);
-        //glVertex3f(.........);
-        //glVertex3f(.........);
+        // Back Side
+        glVertex3f( w,  h, -d);   //Back Side= Top Right Corner
+        glVertex3f(-w,  h, -d);   //Back Side= Top Left  Corner
+        glVertex3f(-w, -h, -d);   //Back Side= Btm Left  Corner
+        glVertex3f( w, -h, -d);   //Back Side= Btm Right Corner
 
         // set the color to gray
         glColor3f(0.5, 0.5, 0.5);
 
-        // right side
-        //glVertex3f(.........);
-        //glVertex3f(.........);
-        //glVertex3f(.........);
-        //glVertex3f(.........);
+        // Right side
+        glVertex3f( w,  h, -d);   //Right Side= Top Right Corner
+        glVertex3f( w,  h,  d);   //Right Side= Top Left  Corner
+        glVertex3f( w, -h,  d);   //Right Side= Btm Left  Corner
+        glVertex3f( w, -h, -d);   //Right Side= Btm Right Corner
 
-        // left side
-        //glVertex3f(.........);
-        //glVertex3f(.........);
-        //glVertex3f(.........);
-        //glVertex3f(.........);
+        // Left Side
+        glVertex3f(-w,  h, -d);     //Left Side= Top Right Corner
+        glVertex3f(-w,  h,  d);     //Left Side= Top Left  Corner
+        glVertex3f(-w, -h,  d);     //Left Side= Btm Left  Corner
+        glVertex3f(-w, -h, -d);     //Left Side= Btm Right Corner
 
-        // top
-        //glVertex3f(.........);
-        //glVertex3f(.........);
-        //glVertex3f(.........);
-        //glVertex3f(.........);
+        // Top Side
+        glVertex3f( w,  h, -d);    //Top Side= Top Right Corner
+        glVertex3f(-w,  h, -d);    //Top Side= Top Left  Corner
+        glVertex3f(-w,  h,  d);    //Top Side= Btm Left  Corner
+        glVertex3f( w,  h,  d);    //Top Side= Btm Right Corner
 
         // bottom
-        //glVertex3f(.........);
-        //glVertex3f(.........);
-        //glVertex3f(.........);
-        //glVertex3f(.........);
+        glVertex3f( w, -h, -d);    //Btm Side= Top Right Corner
+        glVertex3f(-w, -h, -d);    //Btm Side= Top Left  Corner
+        glVertex3f(-w, -h,  d);    //Btm Side= Btm Left  Corner
+        glVertex3f( w, -h,  d);    //Btm Side= Btm Right Corner
 
     glEnd();
 }

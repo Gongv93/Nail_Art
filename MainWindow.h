@@ -8,6 +8,7 @@ Creator: Asad Kamal, Vincent Gong, RuLong Haung
 #define MAINWINDOW_H
 
 #include <QtGui>
+//#include <QtCore/qmath.h>
 #include <QtWidgets>
 #include <QMainWindow>
 
