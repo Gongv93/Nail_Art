@@ -43,7 +43,7 @@ void GLWidget::initializeGL()
     initDisplayLists(1);
 }
 
-
+//TODO: Completed. GluLookat and translation and rotation is done.
 // Update GL scene.
 void GLWidget::paintGL()
 {
@@ -83,7 +83,7 @@ void GLWidget::paintGL()
 }
 
 
-
+//TODO Function: Need to setup xmax and ymax to preserve aspect ratio
 // Resize event handler.
 void GLWidget::resizeGL(int w, int h)
 {
@@ -97,13 +97,16 @@ void GLWidget::resizeGL(int w, int h)
     // aspect ratio
     double ar = (double) w / h;
 
+    //TODO Vincent need to preserve aspect ratio
+
     // set m_xmax, m_ymax such that aspect ratio of rendering is preserved
-    //....
+    //....................
 
     // initialize viewing values
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
+    //TODO Vincent need to setup projection
     if(m_orthoView) {
         // set up orthographic projection
         //....
@@ -155,6 +158,10 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 }
 
 
+//TODO: Not really a todo but need to figure out if artWidth and artHeight
+//       is a local variable or a private variable we declared in mainWindow.
+//       I think it is a local variable, if u look at drawNails function,
+//       he declares it as a double local variable
 // Init display lists.
 void GLWidget::initDisplayLists(int flag)
 {
@@ -166,6 +173,10 @@ void GLWidget::initDisplayLists(int flag)
 
         // compute aspect ratio
         float ar = (float) m_windowW / m_windowH;
+
+        //TODO: need to fix if its artWidth/artHeight or m_artWidth/m_artHeight
+        //      but I think its a local variable that is declared in drawNails.
+        //      ill try to find out from someone,
 /*
         if(artWidth > artHeight)
             drawBoard(2, 2/ar, .05);
@@ -187,6 +198,10 @@ void GLWidget::initDisplayLists(int flag)
     glEndList();
 }
 
+
+//TODO: Completed. Can you just double check the coordinates
+//      We are drawing a rectangular prism in 3D plane. I set the depth
+//      to some decent value, we can change it up later on as needed
 
 // Draw 3D board.
 void GLWidget::drawBoard(float w, float h, float d)
@@ -245,9 +260,9 @@ void GLWidget::drawBoard(float w, float h, float d)
     glEnd();
 }
 
-
+//TODO Function: need to draw the coordinates for the cylinder, Lester
+//               has the notes for this.
 // Draw 3D cylinder.
-
 void GLWidget::drawCylinder(float r, float h)
 {
     float degToRad = M_PI / 180.;
@@ -282,6 +297,7 @@ void GLWidget::drawCylinder(float r, float h)
 }
 
 
+//TODO Function: Draw the nails. Lester has the notes for this
 // Draw 3D nails.
 void GLWidget::drawNails()
 {
