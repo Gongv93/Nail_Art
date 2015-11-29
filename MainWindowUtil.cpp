@@ -100,6 +100,8 @@ bool MainWindow::applyFilter(ImagePtr I1, ImagePtr I2)
 
     IP_histogram(I2, 0, histo, 256, a, b);
 
+    m_glWidget->setVars(I2, m_spacing, m_artWidth, m_artHeight);
+
 	QString Nails = QString("%1 Nails").arg(histo[0]);
 	m_labelNails->setText(Nails);
 
@@ -117,6 +119,16 @@ void MainWindow::display(int flag)
 		applyFilter(m_imageSrc, m_imageDst);
 
 	int w, h;
+
+	if(flag == 2 || flag == 3) {
+		if(flag == 2)
+			m_glWidget->setOrthoView(1);
+		else
+			m_glWidget->setOrthoView(0);
+
+		m_stackWidget->setCurrentIndex(2);
+		return;
+	}
 
 	// raise the appropriate widget from the stack
 	m_stackWidget->setCurrentIndex(flag);
@@ -150,11 +162,13 @@ void MainWindow::preview()
 
 	// display requested image
 	int i;
-	for (i = 0; i<2; i++)
+	for (i = 0; i<3; i++)
 		if (m_radioButton[i]->isChecked()) break;
 
 	switch (i) {
 	case 0: displayIn(); break;
 	case 1: displayOut(); break;
+	case 2: displayOrtho(); break;
+	case 3: displayPerspec(); break;
 	}
 }

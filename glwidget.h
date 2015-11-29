@@ -12,7 +12,9 @@ Creator: Asad Kamal, Vincent Gong, RuLong Haung
 #include <QtOpenGL>
 #include <GL/glu.h>
 #include "IP.h"
+#include "IPtoUI.h"
 
+using namespace IP;
 
 class GLWidget : public QGLWidget {
     Q_OBJECT
@@ -26,6 +28,7 @@ public:
 
     void		setOrthoView	  (int);
     void		initDisplayLists  (int);
+    void        setVars(ImagePtr I, double spacing, double artWidth, double artHeight);
 
 public slots:
     void		reset		  ();
@@ -53,7 +56,11 @@ private:
     bool		m_orthoView;
     float		m_rotation [3];
     float		m_cameraPos[3];
-    GLWidget   *m_glwidget;
+
+    ImagePtr    m_image;
+    double      m_spacing;
+    double      m_artWidth;
+    double      m_artHeight;
 };
 
 #endif // GLWIDGET_H

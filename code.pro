@@ -4,13 +4,14 @@
 
 TEMPLATE = app
 TARGET = nail_art
-QT += widgets opengl
+QT += widgets opengl core gui
 INCLUDEPATH += .
 
 win32-msvc2013 {
     INCLUDEPATH +=   ../qip_win/IP/header ../qip_win/MP/header
 	LIBS	    += -L../qip_win/IP/lib  -L../qip_win/MP/lib    
 	LIBS	    += -lIP -lMP
+	LIBS 		+= -lopengl32 -lglu32
 	QMAKE_CXXFLAGS += /MP /Zi
 }
 

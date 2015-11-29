@@ -73,6 +73,8 @@ void MainWindow::createWidgets()
 
 	m_comboBox = new QComboBox;
 
+	m_glWidget = new GLWidget;
+
 	for (int i = 0; i < 5; ++i)
 	{
 		m_filterSlider[i] = new QSlider(Qt::Horizontal);
@@ -111,9 +113,11 @@ void MainWindow::createConnections()
 
 	connect(m_dimSpinbox[0], SIGNAL(valueChanged(double)), this, SLOT(changeArtWidth(double)));
 	connect(m_dimSpinbox[1], SIGNAL(valueChanged(double)), this, SLOT(changeArtHeight(double)));
-
+	
 	connect(m_radioButton[0], SIGNAL(clicked()), this, SLOT(displayIn()));
 	connect(m_radioButton[1], SIGNAL(clicked()), this, SLOT(displayOut()));
+	connect(m_radioButton[2], SIGNAL(clicked()), this, SLOT(displayOrtho()));
+	connect(m_radioButton[3], SIGNAL(clicked()), this, SLOT(displayPerspec()));
 
 	connect(m_filterSlider[0], SIGNAL(valueChanged(int)), this, SLOT(changeBrightnessI(int)));
 	connect(m_filterSpinbox[0], SIGNAL(valueChanged(double)), this, SLOT(changeBrightnessD(double)));
@@ -174,6 +178,10 @@ void MainWindow::createGroupView(QGroupBox *groupBox)
 	QLabel *label;
 	label = (QLabel *)m_stackWidget->widget(0); label->setAlignment(Qt::AlignCenter);
 	label = (QLabel *)m_stackWidget->widget(1); label->setAlignment(Qt::AlignCenter);
+
+
+
+	m_stackWidget->addWidget(m_glWidget);
 
 	m_stackWidget->setCurrentIndex(DefaultDisplay);
 

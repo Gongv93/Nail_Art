@@ -4,8 +4,7 @@
    Creator: Asad Kamal, Vincent Gong, RuLong Haung
    ======================================================================== */
 
-#include "GLWidget.h"
-#include "MainWindow.h"
+#include "glwidget.h"
 #include <QtGlobal>
 
 #define INIT_DEPTH 3
@@ -43,7 +42,6 @@ void GLWidget::initializeGL()
     initDisplayLists(1);
 }
 
-//TODO: Completed. GluLookat and translation and rotation is done.
 // Update GL scene.
 void GLWidget::paintGL()
 {
@@ -54,7 +52,6 @@ void GLWidget::paintGL()
     glLoadIdentity();
 
     //defining x,y,z
-
     float x = m_cameraPos[0];
     float y = m_cameraPos[1];
     float z = qMax(m_cameraPos[2], 1.0f);
@@ -77,8 +74,7 @@ void GLWidget::paintGL()
     glTranslatef(-x, -y, 0);
 
     // draw nails
-    //initDisplayLists(1); //1 or 0
-    initDisplayLists(0);
+    initDisplayLists(1); //1 or 0
     glCallList(m_nailsList);
 }
 
@@ -97,10 +93,15 @@ void GLWidget::resizeGL(int w, int h)
     // aspect ratio
     double ar = (double) w / h;
 
-    //TODO Vincent need to preserve aspect ratio
-
     // set m_xmax, m_ymax such that aspect ratio of rendering is preserved
-    //....................
+    if(ar < 1.0) {
+    	m_ymax = 1.0;
+    	m_xmax = 1.0 / ar;
+    }
+    else {
+    	m_ymax = 1.0 * ar;
+    	m_xmax = 1.0;
+    }
 
     // initialize viewing values
     glMatrixMode(GL_PROJECTION);
@@ -108,11 +109,10 @@ void GLWidget::resizeGL(int w, int h)
 
     //TODO Vincent need to setup projection
     if(m_orthoView) {
-        // set up orthographic projection
-        //....
+	    glOrtho(-2*m_xmax, 2*m_xmax, -2*m_ymax, 2*m_ymax, -10.0, 10.0);
     } else {
         // set up perspective projection
-        //...
+        gluPerspective(65, ar, 1, 1000);
     }
     glMatrixMode(GL_MODELVIEW);
 }
@@ -172,17 +172,14 @@ void GLWidget::initDisplayLists(int flag)
         glNewList(m_boardList, GL_COMPILE);
 
         // compute aspect ratio
-        float ar = (float) m_windowW / m_windowH;
+        float ar = (float) m_artWidth / m_artHeight;
+        //float ar = (float) m_windowW / m_windowH;
 
-        //TODO: need to fix if its artWidth/artHeight or m_artWidth/m_artHeight
-        //      but I think its a local variable that is declared in drawNails.
-        //      ill try to find out from someone,
-/*
-        if(artWidth > artHeight)
+        if(m_artWidth > m_artHeight)
             drawBoard(2, 2/ar, .05);
         else	drawBoard(2*ar, 2, .05);
         glEndList();
-*/
+
         // draw single nail
         m_nailList = glGenLists(1);
         glNewList(m_nailList, GL_COMPILE);
@@ -202,16 +199,13 @@ void GLWidget::initDisplayLists(int flag)
 //TODO: Completed. Can you just double check the coordinates
 //      We are drawing a rectangular prism in 3D plane. I set the depth
 //      to some decent value, we can change it up later on as needed
-
+ 
 // Draw 3D board.
 void GLWidget::drawBoard(float w, float h, float d)
 {
     // board is drawn from -w to w, -h to h, and -d to d
     w /= 2;
     h /= 2;
-
-    //Set depth at 1.0(can inc or dec later)
-    d = 1.0;
 
     // set the color to white
     glColor3f(1.0, 1.0, 1.0);
@@ -260,8 +254,6 @@ void GLWidget::drawBoard(float w, float h, float d)
     glEnd();
 }
 
-//TODO Function: need to draw the coordinates for the cylinder, Lester
-//               has the notes for this.
 // Draw 3D cylinder.
 void GLWidget::drawCylinder(float r, float h)
 {
@@ -274,7 +266,7 @@ void GLWidget::drawCylinder(float r, float h)
     glBegin(GL_POLYGON);		// start drawing the cylinder top
     for(int i=0; i<=360; i+=5) {
         float a = i * degToRad;	// convert to radians
-        //glVertex3f(.....);
+        glVertex3f(r*cos(a), r*sin(a), h);
     }
     glEnd();
 
@@ -282,7 +274,7 @@ void GLWidget::drawCylinder(float r, float h)
     glBegin(GL_POLYGON);		// start drawing the cylinder bottom
     for(int i=0; i<=360; i+=5) {
         float a = i * degToRad;	// convert to radians
-        //glVertex3f(.....);
+        glVertex3f(r*cos(a), r*sin(a), 0);
     }
     glEnd();
 
@@ -290,30 +282,29 @@ void GLWidget::drawCylinder(float r, float h)
     glBegin(GL_QUAD_STRIP);		// start drawing the cylinder sides
     for(int i=0; i<=360; i+=5) {
         float a = i * degToRad;	// convert to radians
-        //glVertex3f(......);
-        //glVertex3f(......);
+        glVertex3f(r*cos(a), r*sin(a), 0);
+        glVertex3f(r*cos(a), r*sin(a), h);
     }
     glEnd();
 }
 
-
-//TODO Function: Draw the nails. Lester has the notes for this
 // Draw 3D nails.
 void GLWidget::drawNails()
 {
-
-    ImagePtr I;
-    double spacing, artWidth, artHeight;
+    ImagePtr I = m_image;
 
     // get nail spacing, and art dimension values
-    //....
+	double dx = m_spacing;
+	double dy = dx;
 
     // compute scale factor that relates art dimensions and board coordinates
-    //....
+    double s1 = m_xmax/m_artWidth;
+	double s2 = m_ymax/m_artHeight;
+	double s  = .08; //MIN(s1,s2);
 
     glPushMatrix();
     glTranslatef(-1, 1, 0);
-    //glScalef(s, s, s);
+    glScalef(s, s, s);
 
     // draw array of scaled cylinders
     int type;
@@ -323,13 +314,13 @@ void GLWidget::drawNails()
     int h = I->height();
     for(int y=0; y<h; y++) {
         glPushMatrix();
-
         // draw cylinders only where black pixels are found in row
-        for(int x=0; x<w; x++,p1++) {
-            //.....
-        }
-        glPopMatrix();
-        //glTranslatef(0., -dy, 0.);
+		for (int x = 0; x < w;x++,p1++) {
+			if (!*p1) glCallList(m_nailList);
+			glTranslatef(dx,0,0);
+		}
+		glPopMatrix();
+        glTranslatef(0.0, -dy, 0.0);
     }
     glPopMatrix();
 }
@@ -354,4 +345,12 @@ void GLWidget::setOrthoView(int flag)
     m_orthoView = flag;
     resizeGL(m_windowW, m_windowH);
     updateGL();
+}
+
+void GLWidget::setVars(ImagePtr I, double spacing, double artWidth, double artHeight)
+{
+	m_image = I;
+	m_spacing = spacing;
+	m_artHeight = artHeight;
+	m_artWidth = artWidth;
 }

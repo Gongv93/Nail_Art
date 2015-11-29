@@ -7,6 +7,7 @@ Creator: Asad Kamal, Vincent Gong, RuLong Haung
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "glwidget.h"
 #include <QtGui>
 //#include <QtCore/qmath.h>
 #include <QtWidgets>
@@ -40,6 +41,8 @@ public slots:
 	void reset();
 	void displayIn();
 	void displayOut();
+	void displayOrtho();
+	void displayPerspec();
 	void changeArtHeight(double);
 	void changeArtWidth(double);
 	void changeComboBox(int);
@@ -80,6 +83,7 @@ private:
 	QDoubleSpinBox  *m_dimSpinbox[1];
 	QDoubleSpinBox  *m_widthSpinbox;
 	QDoubleSpinBox  *m_heightSpinbox;
+	GLWidget 		*m_glWidget;
 
 
 	QPushButton    *m_InputFileButton;
@@ -101,7 +105,7 @@ private:
 	double m_gamma;
 	double m_filterSize;
 	double m_filterFctr;
-	double m_spacing ;
+	double m_spacing;
 
 
 	// Functions

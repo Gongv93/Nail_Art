@@ -190,6 +190,8 @@ void MainWindow::changeSharpenFctrI(int val)
 
 void MainWindow::displayIn() { display(0); }
 void MainWindow::displayOut() { display(1); }
+void MainWindow::displayOrtho() { display(2); }
+void MainWindow::displayPerspec() {display(3); }
 
 // Slot to reset threshold parameter
 void MainWindow::reset()
