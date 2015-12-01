@@ -100,7 +100,7 @@ bool MainWindow::applyFilter(ImagePtr I1, ImagePtr I2)
 
     IP_histogram(I2, 0, histo, 256, a, b);
 
-    m_glWidget->setVars(I2, m_spacing, m_artWidth, m_artHeight);
+    m_glWidget->setVars(I2, m_spacing, m_disWidth, m_disHeight);
 
 	QString Nails = QString("%1 Nails").arg(histo[0]);
 	m_labelNails->setText(Nails);

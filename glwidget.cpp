@@ -74,12 +74,11 @@ void GLWidget::paintGL()
     glTranslatef(-x, -y, 0);
 
     // draw nails
-    initDisplayLists(1); //1 or 0
+    initDisplayLists(1);
     glCallList(m_nailsList);
 }
 
 
-//TODO Function: Need to setup xmax and ymax to preserve aspect ratio
 // Resize event handler.
 void GLWidget::resizeGL(int w, int h)
 {
@@ -91,28 +90,27 @@ void GLWidget::resizeGL(int w, int h)
     m_windowH = h;
 
     // aspect ratio
-    double ar = (double) w / h;
+    double ar = (double) w/h;
 
     // set m_xmax, m_ymax such that aspect ratio of rendering is preserved
     if(ar < 1.0) {
-    	m_ymax = 1.0;
-    	m_xmax = 1.0 / ar;
+        m_xmax = 1.0;
+        m_ymax = 1.0 / ar;
     }
     else {
-    	m_ymax = 1.0 * ar;
-    	m_xmax = 1.0;
+        m_xmax = 1.0 * ar;
+        m_ymax = 1.0;
     }
 
     // initialize viewing values
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    //TODO Vincent need to setup projection
     if(m_orthoView) {
-	    glOrtho(-2*m_xmax, 2*m_xmax, -2*m_ymax, 2*m_ymax, -10.0, 10.0);
+        glOrtho(-m_xmax, m_xmax, -m_ymax, m_ymax, -10.0, 10.0);
     } else {
         // set up perspective projection
-        gluPerspective(65, ar, 1, 1000);
+        gluPerspective(65, ar, 0.01, 1000);
     }
     glMatrixMode(GL_MODELVIEW);
 }
@@ -158,10 +156,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 }
 
 
-//TODO: Not really a todo but need to figure out if artWidth and artHeight
-//       is a local variable or a private variable we declared in mainWindow.
-//       I think it is a local variable, if u look at drawNails function,
-//       he declares it as a double local variable
 // Init display lists.
 void GLWidget::initDisplayLists(int flag)
 {
@@ -172,6 +166,7 @@ void GLWidget::initDisplayLists(int flag)
         glNewList(m_boardList, GL_COMPILE);
 
         // compute aspect ratio
+        // We need to make
         float ar = (float) m_artWidth / m_artHeight;
         //float ar = (float) m_windowW / m_windowH;
 
@@ -196,10 +191,6 @@ void GLWidget::initDisplayLists(int flag)
 }
 
 
-//TODO: Completed. Can you just double check the coordinates
-//      We are drawing a rectangular prism in 3D plane. I set the depth
-//      to some decent value, we can change it up later on as needed
- 
 // Draw 3D board.
 void GLWidget::drawBoard(float w, float h, float d)
 {
@@ -212,11 +203,12 @@ void GLWidget::drawBoard(float w, float h, float d)
 
     // draw six quadrilaterals for six sides of the board
     glBegin(GL_QUADS);
+
         // Front Side
-        glVertex3f( w,  h,  d);   //Front Side= Top Right Corner
-        glVertex3f(-w,  h,  d);   //Front Side= Top Left  Corner
-        glVertex3f(-w, -h,  d);   //Front Side= Btm Left  Corner
-        glVertex3f( w, -h,  d);   //Front Side= Btm Right Corner
+        glVertex3f( w,  h,  0);   //Front Side= Top Right Corner
+        glVertex3f(-w,  h,  0);   //Front Side= Top Left  Corner
+        glVertex3f(-w, -h,  0);   //Front Side= Btm Left  Corner
+        glVertex3f( w, -h,  0);   //Front Side= Btm Right Corner
 
         // Back Side
         glVertex3f( w,  h, -d);   //Back Side= Top Right Corner
@@ -229,27 +221,27 @@ void GLWidget::drawBoard(float w, float h, float d)
 
         // Right side
         glVertex3f( w,  h, -d);   //Right Side= Top Right Corner
-        glVertex3f( w,  h,  d);   //Right Side= Top Left  Corner
-        glVertex3f( w, -h,  d);   //Right Side= Btm Left  Corner
+        glVertex3f( w,  h,  0);   //Right Side= Top Left  Corner
+        glVertex3f( w, -h,  0);   //Right Side= Btm Left  Corner
         glVertex3f( w, -h, -d);   //Right Side= Btm Right Corner
 
         // Left Side
-        glVertex3f(-w,  h, -d);     //Left Side= Top Right Corner
-        glVertex3f(-w,  h,  d);     //Left Side= Top Left  Corner
-        glVertex3f(-w, -h,  d);     //Left Side= Btm Left  Corner
-        glVertex3f(-w, -h, -d);     //Left Side= Btm Right Corner
+        glVertex3f(-w,  h, -d);   //Left Side= Top Right Corner
+        glVertex3f(-w,  h,  0);   //Left Side= Top Left  Corner
+        glVertex3f(-w, -h,  0);   //Left Side= Btm Left  Corner
+        glVertex3f(-w, -h, -d);   //Left Side= Btm Right Corner
 
         // Top Side
-        glVertex3f( w,  h, -d);    //Top Side= Top Right Corner
-        glVertex3f(-w,  h, -d);    //Top Side= Top Left  Corner
-        glVertex3f(-w,  h,  d);    //Top Side= Btm Left  Corner
-        glVertex3f( w,  h,  d);    //Top Side= Btm Right Corner
+        glVertex3f( w,  h, -d);   //Top Side= Top Right Corner
+        glVertex3f(-w,  h, -d);   //Top Side= Top Left  Corner
+        glVertex3f(-w,  h,  0);   //Top Side= Btm Left  Corner
+        glVertex3f( w,  h,  0);   //Top Side= Btm Right Corner
 
         // bottom
-        glVertex3f( w, -h, -d);    //Btm Side= Top Right Corner
-        glVertex3f(-w, -h, -d);    //Btm Side= Top Left  Corner
-        glVertex3f(-w, -h,  d);    //Btm Side= Btm Left  Corner
-        glVertex3f( w, -h,  d);    //Btm Side= Btm Right Corner
+        glVertex3f( w, -h, -d);   //Btm Side= Top Right Corner
+        glVertex3f(-w, -h, -d);   //Btm Side= Top Left  Corner
+        glVertex3f(-w, -h,  0);   //Btm Side= Btm Left  Corner
+        glVertex3f( w, -h,  0);   //Btm Side= Btm Right Corner
 
     glEnd();
 }
@@ -298,12 +290,24 @@ void GLWidget::drawNails()
 	double dy = dx;
 
     // compute scale factor that relates art dimensions and board coordinates
-    double s1 = m_xmax/m_artWidth;
-	double s2 = m_ymax/m_artHeight;
-	double s  = .08; //MIN(s1,s2);
+    //double s1 = (1.43*m_xmax)/m_artWidth;
+    //double s2 = (1.43*m_ymax)/m_artHeight;
+    double s1 = (2*m_xmax)/m_artWidth;
+    double s2 = (2*m_ymax)/m_artHeight;
+
+    float ar = m_artWidth / m_artHeight;
+
+    double s  = MIN(s1,s2) / ar;
 
     glPushMatrix();
-    glTranslatef(-1, 1, 0);
+
+    if(ar > 1) {
+        glTranslatef(-1, 1 / ar, 0);
+    }
+    else {
+        glTranslatef(-ar, 1, 0);
+    }
+
     glScalef(s, s, s);
 
     // draw array of scaled cylinders

@@ -41,6 +41,19 @@ int MainWindow::load()
     //Ratio of Height to Width of Input Image
 	m_ratio		= m_artHeight / m_artWidth;
 
+    if(m_ratio < 1){
+        m_dimSpinbox[0]->setValue(16);
+        m_dimSpinbox[1]->setValue(16*m_ratio);
+        m_disWidth = 16;
+        m_disHeight = 16 * m_ratio;
+    }
+    else {
+        m_dimSpinbox[1]->setValue(16);
+        m_dimSpinbox[0]->setValue(16/m_ratio);
+        m_disHeight = 16;
+        m_disWidth = 16 / m_ratio;
+    }
+
 	QString s;
 	s.setNum(m_ratio, 'g', 6);
 
