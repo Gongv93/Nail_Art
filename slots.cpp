@@ -221,8 +221,14 @@ void MainWindow::reset()
     m_artHeight = m_imageSrc->height();
     m_ratio= m_artHeight / m_artWidth;
 
-	m_disHeight = 16;
-	m_disWidth = 16;
+	if(m_ratio < 1){
+        m_disWidth = 16;
+        m_disHeight = 16 * m_ratio;
+    }
+    else {
+        m_disHeight = 16;
+        m_disWidth = 16 / m_ratio;
+    }
     m_spacing = 0.23622;
 
 	m_filterSlider[0]->setValue(m_brightness);

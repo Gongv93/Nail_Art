@@ -90,7 +90,7 @@ void GLWidget::resizeGL(int w, int h)
     m_windowH = h;
 
     // aspect ratio
-    double ar = (double) w/h;
+    double ar = (double) w / h;
 
     // set m_xmax, m_ymax such that aspect ratio of rendering is preserved
     if(ar < 1.0) {
@@ -106,11 +106,13 @@ void GLWidget::resizeGL(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
+    int m = 1.5;
+
     if(m_orthoView) {
-        glOrtho(-m_xmax, m_xmax, -m_ymax, m_ymax, -10.0, 10.0);
+        glOrtho(-m*m_xmax, m*m_xmax, -m*m_ymax, m*m_ymax, -10.0, 10.0);
     } else {
         // set up perspective projection
-        gluPerspective(65, ar, 0.01, 1000);
+        gluPerspective(45, ar, 0.01, 1000);
     }
     glMatrixMode(GL_MODELVIEW);
 }
@@ -166,9 +168,8 @@ void GLWidget::initDisplayLists(int flag)
         glNewList(m_boardList, GL_COMPILE);
 
         // compute aspect ratio
-        // We need to make
         float ar = (float) m_artWidth / m_artHeight;
-        //float ar = (float) m_windowW / m_windowH;
+
 
         if(m_artWidth > m_artHeight)
             drawBoard(2, 2/ar, .05);
@@ -288,27 +289,36 @@ void GLWidget::drawNails()
     // get nail spacing, and art dimension values
 	double dx = m_spacing;
 	double dy = dx;
+	double xMax, yMax;
+
+	float ar = m_artWidth / m_artHeight;
+
+	if(ar < 1.0) {
+        xMax = 1.0;
+        yMax = 1.0 / ar;
+    }
+    else {
+        xMax = 1.0 * ar;
+        yMax = 1.0;
+    }
 
     // compute scale factor that relates art dimensions and board coordinates
-    //double s1 = (1.43*m_xmax)/m_artWidth;
-    //double s2 = (1.43*m_ymax)/m_artHeight;
-    double s1 = (2*m_xmax)/m_artWidth;
-    double s2 = (2*m_ymax)/m_artHeight;
+    double s1 = (2*xMax)/m_artWidth;
+    double s2 = (2*yMax)/m_artHeight;
 
-    float ar = m_artWidth / m_artHeight;
-
-    double s  = MIN(s1,s2) / ar;
+    double s  = MIN(s1,s2);
 
     glPushMatrix();
 
     if(ar > 1) {
         glTranslatef(-1, 1 / ar, 0);
+        glScalef(s/ar, s/ar, s);
     }
     else {
         glTranslatef(-ar, 1, 0);
+        glScalef(s*ar, s*ar, s);
     }
 
-    glScalef(s, s, s);
 
     // draw array of scaled cylinders
     int type;
