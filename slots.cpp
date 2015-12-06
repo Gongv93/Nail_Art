@@ -229,7 +229,8 @@ void MainWindow::reset()
         m_disHeight = 16;
         m_disWidth = 16 / m_ratio;
     }
-    m_spacing = 0.23622;
+
+    m_comboBox->setCurrentIndex(0);
 
 	m_filterSlider[0]->setValue(m_brightness);
 	m_filterSlider[1]->setValue(m_contrast);
@@ -243,6 +244,11 @@ void MainWindow::reset()
 
 	// apply new values to stored image
 	preview();
+}
+
+void MainWindow::resetGL()
+{
+	m_glWidget->reset();
 }
 
 void MainWindow::quit()

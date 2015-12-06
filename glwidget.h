@@ -29,9 +29,7 @@ public:
     void		setOrthoView	  (int);
     void		initDisplayLists  (int);
     void        setVars(ImagePtr I, double spacing, double artWidth, double artHeight);
-
-public slots:
-    void		reset		  ();
+    void        reset         ();
 
 protected:
     void		initializeGL();       // initialize GL state

@@ -39,6 +39,7 @@ public slots:
 	// Slots.cpp
 	int  load();
 	void reset();
+	void resetGL();
 	void displayIn();
 	void displayOut();
 	void displayOrtho();

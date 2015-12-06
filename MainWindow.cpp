@@ -111,6 +111,9 @@ void MainWindow::createConnections()
 	connect(m_InputResetButton, SIGNAL(clicked()), this, SLOT(reset()));
 	connect(m_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeComboBox(int)));
 
+	connect(m_rendReset2Btn, SIGNAL(clicked()), this, SLOT(resetGL()));
+	connect(m_rendReset1Btn, SIGNAL(clicked()), this, SLOT(resetGL()));
+
 	connect(m_dimSpinbox[0], SIGNAL(valueChanged(double)), this, SLOT(changeArtWidth(double)));
 	connect(m_dimSpinbox[1], SIGNAL(valueChanged(double)), this, SLOT(changeArtHeight(double)));
 	
