@@ -14,11 +14,8 @@ QString GroupBoxStyle = "QGroupBox {               \
 
 int DefaultDisplay = 1;
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//
-// Class Constructor
-//
 
+// Class Constructor
 MainWindow::MainWindow()
 {
 	applyDefaultFilter();
@@ -27,11 +24,8 @@ MainWindow::MainWindow()
 	createConnections();
 }
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//
-// Class Destructor
-//
 
+// Class Destructor
 MainWindow::~MainWindow() {}
 
 void MainWindow::applyDefaultFilter()
@@ -97,7 +91,6 @@ void MainWindow::createLayout()
 	HorzLayout->addWidget(viewLayout);
 	HorzLayout->setStretch(0, 1);
 	HorzLayout->addLayout(RightVLayout);
-	//HorzLayout->setStretchFactor(RightVLayout, 1);
 
 	QWidget *window = new QWidget;
 	window->setLayout(HorzLayout);
@@ -182,12 +175,8 @@ void MainWindow::createGroupView(QGroupBox *groupBox)
 	label = (QLabel *)m_stackWidget->widget(0); label->setAlignment(Qt::AlignCenter);
 	label = (QLabel *)m_stackWidget->widget(1); label->setAlignment(Qt::AlignCenter);
 
-
-
 	m_stackWidget->addWidget(m_glWidget);
-
 	m_stackWidget->setCurrentIndex(DefaultDisplay);
-
 
 	// assemble stacked widget in vertical layout
 	QVBoxLayout *vbox = new QVBoxLayout;
@@ -207,6 +196,7 @@ void MainWindow::createGroupFilter(QGroupBox* groupBox)
 {
 	QGridLayout *filterLayout = new QGridLayout;
 
+                     //GridLayout, Row, String, Slider, Spinbox, lowerRange, upperRange, initialValue
 	createGridLayout(filterLayout, 0, "Brightness", m_filterSlider[0], m_filterSpinbox[0], -256, 256, 0);
 	createGridLayout(filterLayout, 1, "Contrast", m_filterSlider[1], m_filterSpinbox[1], -100, 100, 0);
 	createGridLayout(filterLayout, 2, "Gamma", m_filterSlider[2], m_filterSpinbox[2], 0.1f, 10, 1);
@@ -218,13 +208,16 @@ void MainWindow::createGroupFilter(QGroupBox* groupBox)
 
 void MainWindow::createGroupPhysDim(QGroupBox* groupBox)
 {
-
 	QGridLayout *phyDimLayout = new QGridLayout;
 
+                    //GridLayout, Row, String, DoubleSpinbox, lowerRange, upperRange, initialValue
 	createGridLayout(phyDimLayout, 0, "Art Width", m_dimSpinbox[0], -256, 256, 16.00);
 	createGridLayout(phyDimLayout, 1, "Art Height", m_dimSpinbox[1], -100, 100, 16.00);
+
+                    //GridLayout, Row, String, ComboBox, String
 	createGridLayout(phyDimLayout, 2, "Gauge", m_comboBox, "");
 
+                     //GridLayout, Row, String, Label
 	createGridLayout(phyDimLayout, 3, "Spacing:", m_labelSpacing);
 	createGridLayout(phyDimLayout, 4, "Nails:", m_labelNails);
 	createGridLayout(phyDimLayout, 5, "Image:", m_labelSize);

@@ -8,7 +8,7 @@ Creator: Asad Kamal, Vincent Gong, RuLong Haung
 #include "MainWindow.h"
 
 
-
+//Creating grid Layout for ImageFilter GroupBox
 void MainWindow::createGridLayout(QGridLayout* layout, int row, QString label, QSlider* slider,
 	QDoubleSpinBox* spinBox, float lowerRange, float upperRange, float initialVal)
 {
@@ -20,11 +20,13 @@ void MainWindow::createGridLayout(QGridLayout* layout, int row, QString label, Q
 	spinBox->setValue(initialVal);
 	spinBox->setRange(lowerRange, upperRange);
 
+    //layout is a gridlayout
 	layout->addWidget(spinnerLabel, row, 0);
 	layout->addWidget(slider, row, 1);
 	layout->addWidget(spinBox, row, 2);
 }
 
+//Creating grid Layout for PhysicalDimension GroupBox
 void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Label, QDoubleSpinBox* SpinBox,
 	 float lowerRange, float upperRange, float initialVal)
 {
@@ -35,9 +37,9 @@ void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Label, Q
 
 	Layout->addWidget(spinBoxLabel, Row, 0);
 	Layout->addWidget(SpinBox, Row, 1);
-
 }
 
+//Creating grid Layout for PhysicalDimension GroupBox
 void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Label, QComboBox* comboBox,
 	QString unitLabel)
 {
@@ -53,9 +55,8 @@ void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Label, Q
 	Layout->addWidget(unitBoxLabel, Row, 2);
 }
 
-
+//Creating grid Layout for PhysicalDimension GroupBox
 void MainWindow::createGridLayout(QGridLayout* Layout, int Row, QString Labels, QLabel *Label2)
-
 {
 	QLabel *labels = new QLabel(Labels);
 
