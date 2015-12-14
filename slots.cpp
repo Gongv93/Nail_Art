@@ -39,19 +39,19 @@ int MainWindow::load()
 	m_artHeight = m_imageSrc->height();
 
     //Ratio of Height to Width of Input Image
-	m_ratio		= m_artHeight / m_artWidth;
+	m_ratio		= m_artWidth / m_artHeight;
 
-    if(m_ratio < 1){
-        m_dimSpinbox[0]->setValue(16);
-        m_dimSpinbox[1]->setValue(16*m_ratio);
-        m_disWidth = 16;
-        m_disHeight = 16 * m_ratio;
+    if(m_ratio > 1){
+    	m_disWidth = 16;
+        m_disHeight = 16 / m_ratio;
+        m_dimSpinbox[0]->setValue(m_disWidth);
+        m_dimSpinbox[1]->setValue(m_disHeight);
     }
     else {
-        m_dimSpinbox[1]->setValue(16);
-        m_dimSpinbox[0]->setValue(16/m_ratio);
-        m_disHeight = 16;
-        m_disWidth = 16 / m_ratio;
+    	m_disHeight = 16;
+        m_disWidth = 16 * m_ratio;
+        m_dimSpinbox[1]->setValue(m_disHeight);
+        m_dimSpinbox[0]->setValue(m_disWidth);
     }
 
 	QString s;
@@ -86,7 +86,7 @@ void MainWindow::changeArtWidth(double val)
 {
 	m_dimSpinbox[0]->setValue(val);
 	m_disWidth = val;
-	m_disHeight = m_disWidth * m_ratio;
+	m_disHeight = m_disWidth / m_ratio;
 	m_dimSpinbox[1]->setValue(m_disHeight);
 
 	preview();
@@ -95,7 +95,7 @@ void MainWindow::changeArtHeight(double val)
 {
 	m_dimSpinbox[1]->setValue(val);
 	m_disHeight = val;
-	m_disWidth = m_disHeight / m_ratio;
+	m_disWidth = m_disHeight * m_ratio;
 	m_dimSpinbox[0]->setValue(m_disWidth);
 	preview();
 }
@@ -219,15 +219,15 @@ void MainWindow::reset()
 
     m_artWidth  = m_imageSrc->width();
     m_artHeight = m_imageSrc->height();
-    m_ratio= m_artHeight / m_artWidth;
+    m_ratio= m_artWidth / m_artHeight;
 
-	if(m_ratio < 1){
+	if(m_ratio > 1){
         m_disWidth = 16;
-        m_disHeight = 16 * m_ratio;
+        m_disHeight = 16 / m_ratio;
     }
     else {
         m_disHeight = 16;
-        m_disWidth = 16 / m_ratio;
+        m_disWidth = 16 * m_ratio;
     }
 
     m_comboBox->setCurrentIndex(0);
@@ -237,7 +237,6 @@ void MainWindow::reset()
 	m_filterSlider[2]->setValue(m_gamma);
 	m_filterSlider[3]->setValue(m_filterSize);
 	m_filterSlider[4]->setValue(m_filterFctr);
-
 
     m_dimSpinbox[0]->setValue(m_disWidth);
     m_dimSpinbox[1]->setValue(m_disHeight);

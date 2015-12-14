@@ -74,7 +74,7 @@ void GLWidget::paintGL()
     glTranslatef(-x, -y, 0);
 
     // draw nails
-    initDisplayLists(1);
+    initDisplayLists(0);
     glCallList(m_nailsList);
 }
 
@@ -109,11 +109,13 @@ void GLWidget::resizeGL(int w, int h)
     int m = 1.5;
 
     if(m_orthoView) {
+    	// Set up othographic view
         glOrtho(-m*m_xmax, m*m_xmax, -m*m_ymax, m*m_ymax, -10.0, 10.0);
     } else {
-        // set up perspective projection
+        // Set up perspective projection
         gluPerspective(45, ar, 0.01, 1000);
     }
+
     glMatrixMode(GL_MODELVIEW);
 }
 
