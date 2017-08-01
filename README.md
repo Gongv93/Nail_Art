@@ -1,3 +1,4 @@
-https://avatars3.githubusercontent.com/u/5107486?v=3&s=460
+vincentgong.com/images/nailart.png
 
-This project is for our second semester of Capstone.
+# Nail Art #
+This program inputs an image and creates a rendering of what it might look like on a board full of nails. Using the sliders provided, you could control brightness, contrast, gamma, and sharpness.
